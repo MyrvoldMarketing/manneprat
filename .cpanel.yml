@@ -1,0 +1,14 @@
+---
+deployment:
+  tasks:
+    # Bytt ut CPANEL_USER med ditt cPanel-brukernavn (det du logger inn i cPanel med)
+    - export DEPLOYPATH=/home/CPANEL_USER/public_html/
+    - /bin/cp -R index.html              $DEPLOYPATH
+    - /bin/cp -R kontakt.html            $DEPLOYPATH
+    - /bin/cp -R 1-til-1.html            $DEPLOYPATH
+    - /bin/cp -R script.js               $DEPLOYPATH
+    - /bin/cp -R styles.css              $DEPLOYPATH
+    - /bin/cp -R subscribe.php           $DEPLOYPATH
+    - /bin/cp -R contact.php             $DEPLOYPATH
+    - /bin/cp -R lib_mailerlite.php      $DEPLOYPATH
+    - /bin/cp -R images                  $DEPLOYPATH
