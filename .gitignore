@@ -1,0 +1,4 @@
+.DS_Store
+credentials.php
+*.log
+node_modules/

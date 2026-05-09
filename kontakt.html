@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kontakt | Manneprat</title>
+  <meta name="description" content="Ta kontakt med Fredrik Klauset. Gratis 20-min samtale. Ingen salgsrutine." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="nav__logo">manneprat<span>.</span></a>
+    <nav class="nav__links">
+      <a href="index.html#test">Testen</a>
+      <a href="1-til-1.html">1:1</a>
+      <a href="index.html#metode">Metoden</a>
+      <a href="kontakt.html" aria-current="page">Kontakt</a>
+    </nav>
+    <a href="index.html#test" class="btn btn--primary nav__cta">Start gratis test →</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Kontakt</span>
+    <h1>La oss ta en prat.</h1>
+    <p class="page-hero__lead">20 minutter. Gratis. Ingen salgsrutine. Fyll ut skjemaet så ringer jeg deg innen 24 timer på hverdager.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section section--test">
+  <div class="container contact__grid">
+
+    <!-- FORM -->
+    <div class="contact__form-wrap">
+      <form id="contactForm" class="contact__form" novalidate>
+        <label>
+          <span>Fornavn *</span>
+          <input type="text" id="cFornavn" name="fornavn" required autocomplete="given-name" placeholder="Ola" />
+        </label>
+        <label>
+          <span>E-post *</span>
+          <input type="email" id="cEpost" name="epost" required autocomplete="email" placeholder="ola@eksempel.no" />
+        </label>
+        <label>
+          <span>Telefon</span>
+          <input type="tel" id="cTlf" name="tlf" autocomplete="tel" placeholder="+47 ..." />
+        </label>
+        <label>
+          <span>Hva tynger deg mest? *</span>
+          <select id="cProblem" name="problem" required>
+            <option value="">Velg...</option>
+            <option value="brudd">Brudd / skilsmisse</option>
+            <option value="sinne">Sinne / kort lunte</option>
+            <option value="tomhet">Tomhet / mangel på mening</option>
+            <option value="stress">Stress / prestasjonspress</option>
+            <option value="grenser">Pleasing / grenseløshet</option>
+            <option value="identitet">Vet ikke hvem jeg er</option>
+            <option value="annet">Noe annet</option>
+          </select>
+        </label>
+        <label>
+          <span>Fortell litt (valgfritt)</span>
+          <textarea id="cMelding" name="melding" rows="5" placeholder="Så mye eller lite du vil. Kort er ok."></textarea>
+        </label>
+        <label class="consent">
+          <input type="checkbox" id="cConsent" required />
+          <span>Jeg samtykker til at Fredrik kontakter meg. Jeg kan trekke samtykket når som helst.</span>
+        </label>
+        <button type="submit" class="btn btn--primary btn--block btn--big">Send melding →</button>
+        <p class="quiz__fineprint">Alt du skriver behandles konfidensielt. Aldri delt.</p>
+      </form>
+
+      <div id="contactSuccess" class="contact__success" hidden>
+        <h3>Meldingen er sendt.</h3>
+        <p>Du hører fra Fredrik innen 24 timer på hverdager. Sjekk også søppelpost hvis mailen ikke dukker opp.</p>
+        <a href="index.html" class="btn btn--ghost">Tilbake til forsida</a>
+      </div>
+    </div>
+
+    <!-- SIDE INFO -->
+    <aside class="contact__aside">
+      <div class="contact__card">
+        <span class="eyebrow">Direkte</span>
+        <h3>Foretrekker du mail?</h3>
+        <p>Skriv direkte til:</p>
+        <a href="mailto:hei@manneprat.no" class="contact__mail">hei@manneprat.no</a>
+      </div>
+
+      <div class="contact__card">
+        <span class="eyebrow">Sosialt</span>
+        <h3>Følg Fredrik</h3>
+        <p>Korte klipp, ærlige refleksjoner og hele podcasten.</p>
+        <div class="contact__social">
+          <a href="https://www.instagram.com/fredrikklauset/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@fredrikklauset" target="_blank" rel="noopener">TikTok</a>
+          <a href="https://open.spotify.com/show/2w3InbAJKoJgXvXoUOeZVZ" target="_blank" rel="noopener">Spotify</a>
+          <a href="https://www.youtube.com/@fklauset" target="_blank" rel="noopener">YouTube</a>
+        </div>
+      </div>
+
+      <div class="contact__card contact__card--accent">
+        <span class="eyebrow">Raskere start</span>
+        <h3>Ta testen først</h3>
+        <p>18 spørsmål, 4 minutter. Du får en personlig rapport på mail – og jeg har mer kontekst når vi prater.</p>
+        <a href="index.html#test" class="btn btn--dark">Start gratis test →</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div>
+      <div class="nav__logo">manneprat<span>.</span></div>
+      <p>Av menn. For menn. En vei hjem til deg selv.</p>
+    </div>
+    <div class="footer__links">
+      <a href="index.html">Hjem</a>
+      <a href="index.html#test">Testen</a>
+      <a href="1-til-1.html">1:1</a>
+      <a href="kontakt.html">Kontakt</a>
+    </div>
+    <div class="footer__social">
+      <a href="https://www.instagram.com/fredrikklauset/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@fredrikklauset" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://open.spotify.com/show/2w3InbAJKoJgXvXoUOeZVZ" target="_blank" rel="noopener">Spotify</a>
+      <a href="https://www.youtube.com/@fklauset" target="_blank" rel="noopener">YouTube</a>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <span>© <span id="yr"></span> Manneprat · Alle rettigheter reservert</span>
+    <span>Nettside av <a href="https://myrvold.marketing" target="_blank" rel="noopener">Myrvold Marketing</a></span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = {
+      fornavn:  document.getElementById('cFornavn').value.trim(),
+      epost:    document.getElementById('cEpost').value.trim(),
+      tlf:      document.getElementById('cTlf').value.trim(),
+      problem:  document.getElementById('cProblem').value,
+      melding:  document.getElementById('cMelding').value.trim(),
+      consent:  document.getElementById('cConsent').checked,
+      ts:       new Date().toISOString(),
+    };
+    if (!data.fornavn || !data.epost || !data.problem || !data.consent) return;
+
+    // Lokal backup
+    try {
+      const list = JSON.parse(localStorage.getItem('mp_contact') || '[]');
+      list.push(data);
+      localStorage.setItem('mp_contact', JSON.stringify(list));
+    } catch (_) {}
+
+    // Send til contact.php (MailerLite + varsel-mail til Fredrik)
+    try {
+      await fetch('contact.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    } catch (_) {}
+
+    document.getElementById('contactForm').hidden = true;
+    document.getElementById('contactSuccess').hidden = false;
+  });
+</script>
+</body>
+</html>

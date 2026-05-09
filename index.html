@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menn-testen | Manneprat</title>
+  <meta name="description" content="Gratis test for menn som sitter fast. 4 minutter. Personlig rapport på mail." />
+  <meta property="og:title" content="Menn-testen – Manneprat" />
+  <meta property="og:description" content="Noe må endres. Du vet det. Testen viser hva." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="container nav__inner">
+    <a href="#" class="nav__logo">manneprat<span>.</span></a>
+    <nav class="nav__links">
+      <a href="#test">Testen</a>
+      <a href="#metode">Metoden</a>
+      <a href="#historier">Historier</a>
+      <a href="#faq">FAQ</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <a href="#test" class="btn btn--primary nav__cta">Start gratis test →</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__bg" style="background-image:url('images/hero.jpg')"></div>
+  <div class="hero__overlay"></div>
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <span class="eyebrow">Gratis test · 4 minutter · 100 % anonymt</span>
+      <h1>Noe må endres.<br/>Du vet det allerede.</h1>
+      <p class="hero__lead">Testen viser hva – og gir deg en personlig rapport med 3 konkrete steg i innboksen.</p>
+      <div class="hero__cta">
+        <a href="#test" class="btn btn--primary btn--huge btn--pulse">
+          <span>Start gratis test</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <span class="hero__meta">Ingen kredittkort. Ingen spam. Bare verdi.</span>
+      </div>
+      <div class="hero__trust">
+        <div><strong>500+</strong><span>menn har tatt testen</span></div>
+        <div><strong>IFS</strong><span>sertifisert metode</span></div>
+        <div><strong>4.9/5</strong><span>fra 1:1-klienter</span></div>
+      </div>
+    </div>
+
+    <!-- Hero preview: mock av selve testen -->
+    <aside class="hero__preview" aria-hidden="true">
+      <div class="hero__preview-card">
+        <div class="hero__preview-head">
+          <span class="hero__preview-badge">Spørsmål 7 / 20</span>
+          <div class="hero__preview-progress"><span></span></div>
+        </div>
+        <div class="hero__preview-body">
+          <span class="hero__preview-dim">Emosjonell regulering</span>
+          <h3>Jeg eksploderer i sinne over småting – og angrer etterpå.</h3>
+          <div class="hero__preview-opts">
+            <div class="hero__preview-opt"><span class="mark"></span>Stemmer ikke</div>
+            <div class="hero__preview-opt"><span class="mark"></span>I liten grad</div>
+            <div class="hero__preview-opt is-selected"><span class="mark"></span>Stemmer delvis</div>
+            <div class="hero__preview-opt"><span class="mark"></span>I stor grad</div>
+            <div class="hero__preview-opt"><span class="mark"></span>Stemmer helt</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero__preview-result">
+        <div class="hero__preview-result-head">
+          <span>Din rapport · sendt til mail</span>
+        </div>
+        <div class="hero__preview-result-body">
+          <div class="hero__preview-ring">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" class="ring-bg"/><circle cx="32" cy="32" r="28" class="ring-fg" style="stroke-dasharray:176;stroke-dashoffset:67"/></svg>
+            <span>62</span>
+          </div>
+          <div>
+            <strong>I bevegelse</strong>
+            <p>Du bygger fundamentet. Her er 3 steg denne uka →</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problemet" class="section section--dark">
+  <div class="container">
+    <span class="eyebrow eyebrow--light">Kjenner du deg igjen?</span>
+    <h2 class="section__title">Fasaden holder. Innsida gjør ikke.</h2>
+    <p class="section__lead">Du funker på papiret. Jobb, trening, rutiner. Men noe knaker. Her er det de fleste menn kommer til oss for:</p>
+    <div class="problem-grid">
+      <div class="problem-card"><h3>Sinne som eksploderer</h3><p>Over småting. Skammen kommer etterpå.</p></div>
+      <div class="problem-card"><h3>Tomhet</h3><p>Du føler ingenting – eller for mye på én gang.</p></div>
+      <div class="problem-card"><h3>Brudd du ikke kommer deg over</h3><p>Du mistet deg selv, ikke bare henne.</p></div>
+      <div class="problem-card"><h3>Pleasing og grenseløshet</h3><p>Du sier ja. Du koker. Du eksploderer.</p></div>
+      <div class="problem-card"><h3>Stress bak fasaden</h3><p>Utad prester. Innad sliten.</p></div>
+      <div class="problem-card"><h3>"Hvem er jeg egentlig?"</h3><p>Du drar på rutinen. Men retningen er borte.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- THE TEST -->
+<section id="test" class="section section--test">
+  <div class="container">
+    <div class="test-header">
+      <span class="eyebrow">Menn-testen</span>
+      <h2 class="section__title">Finn ut hva som faktisk stopper deg.</h2>
+      <p class="section__lead">Én kort test. Fem områder. En personlig rapport – ikke en generisk.</p>
+    </div>
+
+    <div id="quiz" class="quiz">
+
+      <!-- STEP 1: Problem selector -->
+      <div class="quiz__screen" data-screen="problem">
+        <div class="quiz__step-head">
+          <span class="quiz__badge">Steg 1 av 3</span>
+          <h3>Hva tynger deg mest akkurat nå?</h3>
+          <p>Velg det som treffer nærmest. Testen tilpasser seg svaret.</p>
+        </div>
+        <div class="problem-select" id="problemSelect">
+          <button class="problem-select__btn" data-problem="brudd">
+            <span class="problem-select__title">Brudd eller skilsmisse</span>
+            <span class="problem-select__desc">Hun gikk. Du klarer ikke slippe.</span>
+          </button>
+          <button class="problem-select__btn" data-problem="sinne">
+            <span class="problem-select__title">Sinne og kort lunte</span>
+            <span class="problem-select__desc">Du eksploderer – og hater det etterpå.</span>
+          </button>
+          <button class="problem-select__btn" data-problem="tomhet">
+            <span class="problem-select__title">Tomhet og mangel på mening</span>
+            <span class="problem-select__desc">Alt går. Ingenting kjennes.</span>
+          </button>
+          <button class="problem-select__btn" data-problem="stress">
+            <span class="problem-select__title">Stress og prestasjonspress</span>
+            <span class="problem-select__desc">Utad suksess. Innad utmattet.</span>
+          </button>
+          <button class="problem-select__btn" data-problem="grenser">
+            <span class="problem-select__title">Pleasing og grenseløshet</span>
+            <span class="problem-select__desc">Du sier ja. Så koker det.</span>
+          </button>
+          <button class="problem-select__btn" data-problem="identitet">
+            <span class="problem-select__title">Vet ikke hvem jeg er</span>
+            <span class="problem-select__desc">Rollen holder. Mannen er borte.</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Questions -->
+      <div class="quiz__screen" data-screen="questions" hidden>
+        <div class="quiz__progress">
+          <div class="quiz__progress-bar"><span id="progressBar"></span></div>
+          <div class="quiz__progress-text"><span id="qIndex">1</span> / <span id="qTotal">18</span></div>
+        </div>
+        <div class="quiz__card">
+          <span class="quiz__dim" id="qDimension"></span>
+          <h3 class="quiz__question" id="qText"></h3>
+          <div class="quiz__options" id="qOptions"></div>
+          <div class="quiz__nav">
+            <button class="btn btn--ghost" id="prevBtn">← Forrige</button>
+            <button class="btn btn--primary" id="nextBtn" disabled>Neste →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Email -->
+      <div class="quiz__screen" data-screen="email" hidden>
+        <div class="quiz__email">
+          <span class="quiz__badge">Steg 3 av 3</span>
+          <h3>Rapporten din er klar.</h3>
+          <p>Legg inn mailen så får du den rett i innboksen – sammen med Fredriks 7-dagers serie <em>Tilbake til deg selv</em>.</p>
+          <form id="emailForm" class="quiz__form" novalidate>
+            <label>
+              <span>Fornavn</span>
+              <input type="text" name="fornavn" id="fornavn" required autocomplete="given-name" placeholder="Ola" />
+            </label>
+            <label>
+              <span>E-post</span>
+              <input type="email" name="epost" id="epost" required autocomplete="email" placeholder="ola@eksempel.no" />
+            </label>
+            <label class="consent">
+              <input type="checkbox" id="consent" required />
+              <span>Send meg rapporten og mailserien. Jeg melder meg av når jeg vil.</span>
+            </label>
+            <button type="submit" class="btn btn--primary btn--block">Vis rapporten →</button>
+            <p class="quiz__fineprint">Ingen spam. Aldri delt. Punktum.</p>
+          </form>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="quiz__screen" data-screen="results" hidden>
+        <div class="results">
+          <div class="results__top">
+            <span class="eyebrow">Din rapport</span>
+            <h3 id="resultHeadline"></h3>
+            <p id="resultIntro"></p>
+          </div>
+
+          <div class="results__score">
+            <div class="score-ring score-ring--big" aria-hidden="true">
+              <svg viewBox="0 0 160 160">
+                <circle cx="80" cy="80" r="70" class="ring-bg"/>
+                <circle cx="80" cy="80" r="70" class="ring-fg" id="bigRing"/>
+              </svg>
+              <div class="score-ring__num"><span id="bigScore">0</span><small>/100</small></div>
+            </div>
+            <div class="results__tier" id="resultTier"></div>
+          </div>
+
+          <div class="results__dims" id="resultDims"></div>
+
+          <div class="results__actions">
+            <h4>3 steg du kan ta denne uka:</h4>
+            <ol id="resultSteps"></ol>
+          </div>
+
+          <div class="results__cta">
+            <h4>Vil du ha hjelp til å faktisk gjøre dette?</h4>
+            <p>20 minutter på telefon med Fredrik. Gratis. Ingen salgsrutine.</p>
+            <a href="kontakt.html" class="btn btn--primary btn--big">Book gratis samtale →</a>
+            <p class="quiz__fineprint">Rapporten er også sendt til <span id="sentToEmail"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section id="metode" class="section section--light">
+  <div class="container method__grid">
+    <div>
+      <span class="eyebrow">Metoden</span>
+      <h2 class="section__title">Ikke terapi. En vei hjem.</h2>
+      <p>Fredrik jobber med Internal Family Systems (IFS) – en av de mest anerkjente metodene for varig indre arbeid. Vi fikser deg ikke. Vi hjelper deg forstå deg.</p>
+      <ul class="check-list check-list--dark">
+        <li>Forstå hva som faktisk trigger deg</li>
+        <li>Stoppe selvsabotasje og pleasing</li>
+        <li>Sette grenser uten å eksplodere</li>
+        <li>Finne tilbake til kraft og selvrespekt</li>
+      </ul>
+      <a href="1-til-1.html" class="btn btn--dark">Se 1:1-programmet →</a>
+    </div>
+    <div class="method__card">
+      <div class="method__portrait">
+        <img src="images/fredrik.jpg" alt="Fredrik Klauset" onerror="this.style.display='none';this.parentElement.classList.add('method__portrait--fallback')" />
+        <span class="method__portrait-fb">FK</span>
+      </div>
+      <p>"Jeg har vært der selv. Full av sinne. Fasade som så bra ut. Et indre som skrek. Jeg vet veien ut – fordi jeg har gått den."</p>
+      <strong>Fredrik Klauset</strong>
+      <span class="method__role">Coach &amp; grunnlegger av Manneprat</span>
+      <div class="method__meta">
+        <span>IFS-sertifisert</span><span>65+ podcast-episoder</span><span>100+ menn coachet</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORIES -->
+<section id="historier" class="section section--dark">
+  <div class="container">
+    <span class="eyebrow eyebrow--light">Ekte historier</span>
+    <h2 class="section__title">Menn som fant veien tilbake.</h2>
+    <div class="stories">
+      <article class="story">
+        <span class="story__mark">“</span>
+        <p>Jeg trodde jeg bare skulle komme meg over henne. Jeg måtte komme tilbake til meg selv først.</p>
+        <footer><strong>Marius, 38</strong><span>Etter 12 år i ekteskap</span></footer>
+      </article>
+      <article class="story">
+        <span class="story__mark">“</span>
+        <p>Sinnet styrte livet mitt. På tre måneder fikk jeg tilbake kontrollen – uten å undertrykke det.</p>
+        <footer><strong>Anders, 44</strong><span>Samboerbrudd</span></footer>
+      </article>
+      <article class="story">
+        <span class="story__mark">“</span>
+        <p>Jeg tok testen på en søndag. Booket samtale på mandag. Det viktigste valget på mange år.</p>
+        <footer><strong>Kristian, 31</strong><span>Forlovelsen brutt</span></footer>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section section--light">
+  <div class="container faq">
+    <span class="eyebrow">Spørsmål vi får</span>
+    <h2 class="section__title">Det du lurer på.</h2>
+    <div class="faq__list">
+      <details>
+        <summary>Er dette en "ekte" test?</summary>
+        <p>Bygget på IFS-prinsipper og kliniske selvrapporteringsverktøy. Ikke diagnostisk – men et ærlig speil.</p>
+      </details>
+      <details>
+        <summary>Hva skjer med mailen min?</summary>
+        <p>Brukes kun til å sende deg rapporten og Fredriks 7-dagers serie. Aldri delt. Avmelding med ett klikk.</p>
+      </details>
+      <details>
+        <summary>Er dette for meg hvis jeg ikke er "i krise"?</summary>
+        <p>Ja. Testen er for enhver mann som kjenner at noe knaker – stort eller lite. Du trenger ikke vente til bunnen.</p>
+      </details>
+      <details>
+        <summary>Koster samtalen noe?</summary>
+        <p>Nei. Første 20 minutter er gratis. Ingen salgsrutine. Ingen forpliktelser.</p>
+      </details>
+      <details>
+        <summary>Hvor lang tid tar testen?</summary>
+        <p>3–5 minutter. Svar på magefølelsen – ikke overanalysér.</p>
+      </details>
+    </div>
+    <div class="faq__cta">
+      <a href="#test" class="btn btn--primary btn--big">Start gratis test →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div>
+      <div class="nav__logo">manneprat<span>.</span></div>
+      <p>Av menn. For menn. En vei hjem til deg selv.</p>
+    </div>
+    <div class="footer__links">
+      <a href="index.html">Hjem</a>
+      <a href="index.html#test">Testen</a>
+      <a href="1-til-1.html">1:1</a>
+      <a href="kontakt.html">Kontakt</a>
+    </div>
+    <div class="footer__social">
+      <a href="https://www.instagram.com/fredrikklauset/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@fredrikklauset" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://open.spotify.com/show/2w3InbAJKoJgXvXoUOeZVZ" target="_blank" rel="noopener">Spotify</a>
+      <a href="https://www.youtube.com/@fklauset" target="_blank" rel="noopener">YouTube</a>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <span>© <span id="yr"></span> Manneprat · Alle rettigheter reservert</span>
+    <span>Nettside av <a href="https://myrvold.marketing" target="_blank" rel="noopener">Myrvold Marketing</a></span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
