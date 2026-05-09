@@ -732,6 +732,24 @@ p { margin: 0 0 14px; color: var(--text-dim); }
   cursor: pointer;
 }
 .consent input { margin-top: 4px; accent-color: var(--accent); }
+.contact__form label.consent {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+}
+.contact__form label.consent input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  padding: 0;
+  margin: 2px 0 0;
+}
+.contact__form label.consent > span {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
 .quiz__fineprint {
   font-size: 0.78rem;
   color: var(--muted);
