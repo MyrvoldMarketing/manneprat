@@ -2,3 +2,7 @@
 credentials.php
 *.log
 node_modules/
+
+# Zip-arkiver
+*.zip
+
