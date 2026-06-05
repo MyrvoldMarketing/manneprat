@@ -1,5 +1,5 @@
 /* =====================================================
-   Menn-testen – quiz logic with adaptive problem flow
+   Manneprat-testen – quiz logic with adaptive problem flow
    ===================================================== */
 
 const OPTIONS = [
