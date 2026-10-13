@@ -52,7 +52,7 @@
     var d = document.createElement('div');
     d.setAttribute('role', 'dialog');
     d.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;max-width:560px;margin:0 auto;background:#161a21;color:#e8e6e1;border:1px solid #2a303a;border-radius:12px;padding:16px 18px;font:14px/1.45 Inter,system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.45)';
-    d.innerHTML = '<div style="margin-bottom:12px">Vi bruker informasjonskapsler fra Meta for å måle om annonsene våre fungerer. Er det greit?</div>' +
+    d.innerHTML = '<div style="margin-bottom:12px">Vi bruker informasjonskapsler fra Meta og Microsoft Clarity for å måle annonsene våre og se hvordan siden brukes. Er det greit?</div>' +
       '<div style="display:flex;gap:10px;justify-content:flex-end">' +
       '<button type="button" data-v="nei" style="background:none;border:1px solid #3a414d;color:#e8e6e1;border-radius:8px;padding:9px 16px;font:inherit;cursor:pointer">Nei takk</button>' +
       '<button type="button" data-v="ja" style="background:#c9814a;border:0;color:#0e1116;border-radius:8px;padding:9px 18px;font:inherit;font-weight:700;cursor:pointer">Godta</button></div>';
