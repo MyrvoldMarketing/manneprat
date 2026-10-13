@@ -79,13 +79,8 @@
         <p class="quiz__fineprint">Alt du skriver behandles konfidensielt. Aldri delt.</p>
       </form>
 
-      <div id="contactSuccess" class="contact__success" hidden>
-        <h3>Meldingen er sendt.</h3>
-        <p>Du hører fra Fredrik innen 24 timer på hverdager. Sjekk også søppelpost hvis mailen ikke dukker opp.</p>
-        <a href="index.html" class="btn btn--ghost">Tilbake til forsida</a>
-      </div>
+      <p id="contactError" class="quiz__fineprint" style="color:var(--danger)" hidden>Meldingen ble ikke sendt. Prøv igjen, eller skriv til <a href="mailto:hei@manneprat.no">hei@manneprat.no</a>.</p>
     </div>
-
     <!-- SIDE INFO -->
     <aside class="contact__aside">
       <div class="contact__card">
@@ -168,18 +163,25 @@
 
     // Send til contact.php (MailerLite + varsel-mail til Fredrik)
     try { data.utm = JSON.parse(sessionStorage.getItem('mp_utm') || '{}'); } catch (_) { data.utm = {}; }
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    let ok = false;
     try {
       const res = await fetch('contact.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      // Målet vårt: skjemaet er sendt inn og mottatt
-      if (res.ok && window.mpTrack) mpTrack('Lead', { content_name: 'kontakt-skjema', content_category: data.problem });
+      ok = res.ok;
     } catch (_) {}
-
-    document.getElementById('contactForm').hidden = true;
-    document.getElementById('contactSuccess').hidden = false;
+    if (ok) {
+      // Takkesiden teller innsendingen (Lead) og viser hva som skjer videre
+      try { sessionStorage.setItem('mp_takk', JSON.stringify({ fornavn: data.fornavn, problem: data.problem })); } catch (_) {}
+      window.location.href = 'takk.html';
+      return;
+    }
+    btn.disabled = false;
+    document.getElementById('contactError').hidden = false;
   });
 </script>
 </body>

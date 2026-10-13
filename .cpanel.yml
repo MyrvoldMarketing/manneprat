@@ -5,6 +5,7 @@ deployment:
     - export DEPLOYPATH=/home6/manneprat/public_html/
     - /bin/cp -R index.html              $DEPLOYPATH
     - /bin/cp -R kontakt.html            $DEPLOYPATH
+    - /bin/cp -R takk.html               $DEPLOYPATH
     - /bin/cp -R 1-til-1.html            $DEPLOYPATH
     - /bin/cp -R script.js               $DEPLOYPATH
     - /bin/cp -R styles.css              $DEPLOYPATH
