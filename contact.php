@@ -37,6 +37,13 @@ if ($fornavn === '' || !filter_var($epost, FILTER_VALIDATE_EMAIL) || $problem ==
     mp_json(['ok' => false, 'error' => 'missing_fields'], 400);
 }
 
+// Hvilken annonse henvendelsen kom fra (utm_* fra landingssiden)
+$utm = is_array($data['utm'] ?? null) ? $data['utm'] : [];
+$annonse = trim(preg_replace('/[^\p{L}\p{N} ._+\-]/u', '', (string)($utm['utm_content'] ?? '')));
+$kampanje = trim(preg_replace('/[^\p{L}\p{N} ._+\-]/u', '', (string)($utm['utm_campaign'] ?? '')));
+if ($annonse === '') { $annonse = 'ukjent'; }
+if ($kampanje !== '') { $annonse .= " (kampanje: {$kampanje})"; }
+
 // 1) MailerLite
 $fields = [
     'name'        => $fornavn,
@@ -64,7 +71,8 @@ $body = "Ny kontakt fra nettsiden:\n\n"
       . "E-post:  {$epost}\n"
       . "Tlf:     {$tlf}\n"
       . "Problem: {$problem}\n"
-      . "Tid:     " . date('Y-m-d H:i') . "\n\n"
+      . "Tid:     " . date('Y-m-d H:i') . "\n"
+      . "Annonse: {$annonse}\n\n"
       . "Melding:\n{$melding}\n";
 
 $headers = [
