@@ -91,7 +91,7 @@ main { flex: 1; padding: 64px 0 88px; }
   color: var(--text);
   margin-bottom: 8px;
 }
-input[type=text], input[type=email], textarea, select {
+input[type=text], input[type=email], input[type=tel], textarea, select {
   width: 100%;
   font: inherit;
   color: var(--text);
