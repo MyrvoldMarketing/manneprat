@@ -115,7 +115,7 @@
   }
 
   const times = document.getElementById('times');
-  ['09:00', '10:30', '12:00', '14:00', '15:30', '17:00'].forEach((t, i) => {
+  ['09:00', '10:30', '12:00', '14:00', '17:00', '19:00'].forEach((t, i) => {
     times.insertAdjacentHTML('beforeend',
       `<div><input type="radio" name="tid" id="tid_${i}" value="${t}" required /><label for="tid_${i}">${t}</label></div>`);
   });
