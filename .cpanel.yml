@@ -16,3 +16,5 @@ deployment:
     - /bin/cp -R vsl-a                   $DEPLOYPATH
     - /bin/cp -R vsl-b                   $DEPLOYPATH
     - /bin/cp -R vsl-assets              $DEPLOYPATH
+    - /bin/cp -R booking.php             $DEPLOYPATH
+    - /bin/cp -R vsl-booking             $DEPLOYPATH

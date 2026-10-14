@@ -208,3 +208,5 @@ input:focus-visible + label { outline: 2px solid var(--text); outline-offset: 2p
 
 /* Videoside versjon B: redigert video i 16:9 */
 .video--b { aspect-ratio: 16 / 9; }
+
+.form-error { color: #e08a7a; font-size: 0.9rem; margin: 0 0 14px; }
