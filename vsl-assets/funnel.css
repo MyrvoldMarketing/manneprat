@@ -233,3 +233,18 @@ input:focus-visible + label { outline: 2px solid var(--text); outline-offset: 2p
 .sitat { margin: 0; padding-left: 14px; border-left: 2px solid var(--accent); }
 .sitat blockquote { margin: 0; color: var(--text); font-size: 0.95rem; line-height: 1.5; }
 .sitat figcaption { margin-top: 4px; font-size: 0.8rem; color: var(--text-dim); }
+
+/* Bookingside i tre steg */
+.bk__steg { display: flex; gap: 6px; list-style: none; padding: 0; margin: 0 0 14px; counter-reset: steg; }
+.bk__steg li { flex: 1; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding-top: 8px; border-top: 3px solid var(--line-strong); }
+.bk__steg li::before { counter-increment: steg; content: counter(steg) ". "; }
+.bk__steg li.er-ferdig { color: var(--text-dim); border-color: var(--accent); }
+.bk__steg li.er-aktiv { color: var(--accent); border-color: var(--accent); }
+.bk__sporsmal { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--text); margin: 0 0 12px; }
+.bk__tilbake { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line-strong); color: var(--text); font-size: 1.2rem; line-height: 1; flex-shrink: 0; }
+.bk__tilbake:hover { border-color: var(--accent); }
+.bk .days { grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 0; }
+.bk .days label { padding: 12px 0; font-size: 0.95rem; }
+.bk .days small { display: inline; margin-right: 6px; font-size: 0.78rem; }
+.bk .times { grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 0; }
+.bk .times label { padding: 14px 0; font-size: 1rem; }

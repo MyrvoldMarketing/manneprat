@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=4" />
+  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=5" />
   <script src="/vsl-assets/track.js?v=3" defer></script>
 </head>
 <body class="side-booking">
@@ -26,20 +26,34 @@
       <p class="bk__rolig">Uforpliktende. Du trenger ikke forberede noe.</p>
 
       <div class="bk__kort">
-        <div class="days" id="days"></div>
-        <div class="times" id="times"></div>
+        <ol class="bk__steg" aria-label="Steg">
+          <li data-steg="1">Dato</li><li data-steg="2">Tid</li><li data-steg="3">Info</li>
+        </ol>
 
-        <div class="bk__felt">
-          <input type="text" id="bFornavn" autocomplete="given-name" placeholder="Fornavn" aria-label="Fornavn" required />
-          <input type="email" id="bEpost" autocomplete="email" inputmode="email" placeholder="E-post" aria-label="E-post" required />
-          <input type="tel" id="bTlf" autocomplete="tel" inputmode="tel" placeholder="Telefon" aria-label="Telefon" required />
-        </div>
-        <label class="bk__samtykke">
-          <input type="checkbox" id="bConsent" required />
-          <span>Fredrik kan kontakte meg om samtalen.</span>
-        </label>
-        <p class="form-error" id="bookingError" hidden>Noe gikk galt. Prøv igjen, eller skriv til hei@manneprat.no.</p>
-        <button type="submit" class="btn btn--block">BOOK SAMTALEN</button>
+        <section class="bk__del" id="del1">
+          <p class="bk__sporsmal">Hvilken dag passer?</p>
+          <div class="days" id="days"></div>
+        </section>
+
+        <section class="bk__del" id="del2" hidden>
+          <p class="bk__sporsmal"><button type="button" class="bk__tilbake" data-til="1">‹</button><span>Hvilket tidspunkt <span id="valgtDag"></span>?</span></p>
+          <div class="times" id="times"></div>
+        </section>
+
+        <section class="bk__del" id="del3" hidden>
+          <p class="bk__sporsmal"><button type="button" class="bk__tilbake" data-til="2">‹</button><span id="valgtTid"></span></p>
+          <div class="bk__felt">
+            <input type="text" id="bFornavn" autocomplete="given-name" placeholder="Fornavn" aria-label="Fornavn" required />
+            <input type="email" id="bEpost" autocomplete="email" inputmode="email" placeholder="E-post" aria-label="E-post" required />
+            <input type="tel" id="bTlf" autocomplete="tel" inputmode="tel" placeholder="Telefon" aria-label="Telefon" required />
+          </div>
+          <label class="bk__samtykke">
+            <input type="checkbox" id="bConsent" required />
+            <span>Fredrik kan kontakte meg om samtalen.</span>
+          </label>
+          <p class="form-error" id="bookingError" hidden>Noe gikk galt. Prøv igjen, eller skriv til hei@manneprat.no.</p>
+          <button type="submit" class="btn btn--block">BOOK SAMTALEN</button>
+        </section>
       </div>
 
       <!-- Sosialt bevis: ekte utsagn fra Fredriks klienter (SITATER under). Vises ikke når listen er tom. -->
@@ -71,7 +85,7 @@
   const monthNames = ['jan', 'feb', 'mar', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'des'];
   const d = new Date();
   let added = 0;
-  while (added < 5) {
+  while (added < 10) {
     d.setDate(d.getDate() + 1);
     if (d.getDay() === 0 || d.getDay() === 6) continue;
     days.insertAdjacentHTML('beforeend',
@@ -83,6 +97,30 @@
     times.insertAdjacentHTML('beforeend',
       `<div><input type="radio" name="tid" id="tid_${i}" value="${t}" required /><label for="tid_${i}">${t}</label></div>`);
   });
+
+
+  // Tre steg: dato, tid, info. Valget sender deg videre til neste steg.
+  const deler = [1, 2, 3].map((n) => document.getElementById('del' + n));
+  function visSteg(n) {
+    deler.forEach((el, i) => { el.hidden = i !== n - 1; });
+    document.querySelectorAll('.bk__steg li').forEach((li) => {
+      li.classList.toggle('er-aktiv', +li.dataset.steg === n);
+      li.classList.toggle('er-ferdig', +li.dataset.steg < n);
+    });
+    if (n === 3 && matchMedia('(min-width: 861px)').matches) document.getElementById('bFornavn').focus();
+  }
+  document.getElementById('days').addEventListener('change', (e) => {
+    document.getElementById('valgtDag').textContent = e.target.value.replace(/^\S+ /, 'den ');
+    visSteg(2);
+  });
+  document.getElementById('times').addEventListener('change', () => {
+    const dag = document.querySelector('input[name="dag"]:checked').value;
+    const tid = document.querySelector('input[name="tid"]:checked').value;
+    document.getElementById('valgtTid').textContent = dag.charAt(0).toUpperCase() + dag.slice(1) + ' kl. ' + tid;
+    visSteg(3);
+  });
+  document.querySelectorAll('.bk__tilbake').forEach((b) => b.addEventListener('click', () => visSteg(+b.dataset.til)));
+  visSteg(1);
 
   // Send bookingen til booking.php (e-post til Fredrik + MailerLite)
   const form = document.getElementById('contactForm');
