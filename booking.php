@@ -36,7 +36,7 @@ $q3 = trim((string)($data['q3'] ?? ''));
 $q4 = $f('q4');
 $q5 = $f('q5');
 
-if ($fornavn === '' || !filter_var($epost, FILTER_VALIDATE_EMAIL) || $dag === '' || $tid === '' || $q1 === '') {
+if ($fornavn === '' || !filter_var($epost, FILTER_VALIDATE_EMAIL) || $dag === '' || $tid === '') {
     mp_json(['ok' => false, 'error' => 'missing_fields'], 400);
 }
 
@@ -54,7 +54,7 @@ $ml = mp_mailerlite_upsert(
     [
         'name'       => $fornavn,
         'phone'      => $tlf,
-        'mp_problem' => mb_substr($q1, 0, 250),
+        'mp_problem' => $q1 !== '' ? mb_substr($q1, 0, 250) : 'vsl-booking',
         'mp_message' => "Ønsket tid: {$dag} kl. {$tid}",
         'mp_source'  => 'vsl-booking',
     ],
@@ -74,12 +74,18 @@ $body = "Ny booking fra VSL-siden. Ønsket tid må bekreftes på e-post.\n\n"
       . "Tlf:        {$tlf}\n"
       . "Video:      {$video}\n"
       . "Annonse:    {$annonse}\n"
-      . "Sendt:      " . date('Y-m-d H:i') . "\n\n"
-      . "1. Hva ønsker du mest hjelp med akkurat nå?\n{$q1}\n\n"
-      . "2. Hvor lenge har dette vært et tema i livet ditt?\n{$q2}\n\n"
-      . "3. Hvis dette området i livet ditt var vesentlig bedre om seks måneder, hva ville vært annerledes?\n{$q3}\n\n"
-      . "4. Hvor viktig er det for deg å gjøre noe med dette nå? (1 til 10)\n{$q4}\n\n"
-      . "5. Klar til å prioritere tid, energi og økonomi til et seks måneders forløp?\n{$q5}\n";
+      . "Sendt:      " . date('Y-m-d H:i') . "\n";
+// Eldre versjon av siden sendte også fem spørsmål; ta dem med hvis de finnes
+$sporsmal = [
+    'Hva ønsker du mest hjelp med akkurat nå?' => $q1,
+    'Hvor lenge har dette vært et tema?' => $q2,
+    'Hva ville vært annerledes om seks måneder?' => $q3,
+    'Hvor viktig er det å gjøre noe med dette nå? (1 til 10)' => $q4,
+    'Klar til å prioritere et seks måneders forløp?' => $q5,
+];
+foreach ($sporsmal as $sp => $sv) {
+    if ($sv !== '') { $body .= "\n{$sp}\n{$sv}\n"; }
+}
 
 $headers = [
     'From: noreply@manneprat.no',

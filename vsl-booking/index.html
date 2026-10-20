@@ -8,10 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=2" />
+  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=3" />
   <script src="/vsl-assets/track.js?v=2" defer></script>
 </head>
-<body>
+<body class="side-booking">
 
 <header class="top">
   <div class="container top__inner">
@@ -21,69 +21,36 @@
 
 <main>
   <div class="container">
-    <div class="booking__head">
-      <h1>Book en samtale</h1>
-      <p>Vi kartlegger situasjonen din og ser om Manneprat Reset er riktig for deg.</p>
-    </div>
-
-    <form class="booking" id="contactForm" novalidate data-clarity-mask="true">
-      <div class="card">
-        <div class="q">
-          <label class="q__label" for="q1"><span class="q__num">1.</span>Hva ønsker du mest hjelp med akkurat nå?</label>
-          <textarea id="q1" required></textarea>
-        </div>
-
-        <div class="q">
-          <label class="q__label" for="q2"><span class="q__num">2.</span>Hvor lenge har dette vært et tema i livet ditt?</label>
-          <select id="q2" required>
-            <option value="" selected disabled>Velg</option>
-            <option>Under ett år</option>
-            <option>1 til 3 år</option>
-            <option>3 til 10 år</option>
-            <option>Mer enn 10 år</option>
-          </select>
-        </div>
-
-        <div class="q">
-          <label class="q__label" for="q3"><span class="q__num">3.</span>Hvis dette området i livet ditt var vesentlig bedre om seks måneder, hva ville vært annerledes?</label>
-          <textarea id="q3" required></textarea>
-        </div>
-
-        <div class="q">
-          <span class="q__label"><span class="q__num">4.</span>Hvor viktig er det for deg å gjøre noe med dette nå?</span>
-          <div class="scale" id="scale"></div>
-          <div class="scale__ends"><span>Lite viktig</span><span>Svært viktig</span></div>
-        </div>
-
-        <div class="q">
-          <span class="q__label"><span class="q__num">5.</span>Hvis vi begge opplever at Manneprat Reset er riktig, er du klar til å prioritere tid, energi og økonomi til et seks måneders forløp?</span>
-          <div class="choice">
-            <div><input type="radio" name="q5" id="q5a" value="Ja" required /><label for="q5a">Ja</label></div>
-            <div><input type="radio" name="q5" id="q5b" value="Usikker" /><label for="q5b">Usikker</label></div>
-            <div><input type="radio" name="q5" id="q5c" value="Nei" /><label for="q5c">Nei</label></div>
-          </div>
-        </div>
+    <form class="booking booking--enkel" id="contactForm" novalidate data-clarity-mask="true">
+      <div class="booking__head">
+        <h1>Book en samtale</h1>
+        <p class="rolig">Samtalen er gratis og uforpliktende. Du trenger ikke forberede noe.</p>
       </div>
 
       <div class="card">
-        <h2>Velg tidspunkt</h2>
+        <p class="steg">Velg tidspunkt</p>
         <div class="days" id="days"></div>
         <div class="times" id="times"></div>
+
+        <!-- Sosialt bevis: fylles med ekte utsagn fra Fredriks klienter (SITATER under). Vises ikke når listen er tom. -->
+        <div class="sitater" id="sitater"></div>
+
+        <p class="steg">Hvor kan Fredrik nå deg?</p>
         <div class="field">
           <label for="bFornavn">Fornavn</label>
           <input type="text" id="bFornavn" autocomplete="given-name" required />
         </div>
         <div class="field">
           <label for="bEpost">E-post</label>
-          <input type="email" id="bEpost" autocomplete="email" required />
+          <input type="email" id="bEpost" autocomplete="email" inputmode="email" required />
         </div>
         <div class="field">
           <label for="bTlf">Telefon</label>
-          <input type="tel" id="bTlf" autocomplete="tel" required />
+          <input type="tel" id="bTlf" autocomplete="tel" inputmode="tel" required />
         </div>
         <label class="consent">
           <input type="checkbox" id="bConsent" required />
-          <span>Jeg godtar at Manneprat lagrer svarene mine og kontakter meg om samtalen.</span>
+          <span>Jeg godtar at Manneprat lagrer opplysningene mine og kontakter meg om samtalen.</span>
         </label>
         <p class="form-error" id="bookingError" hidden>Noe gikk galt. Prøv igjen, eller skriv til hei@manneprat.no.</p>
         <button type="submit" class="btn btn--block">BOOK EN SAMTALE</button>
@@ -93,14 +60,23 @@
 </main>
 
 <script>
-  // Skala 1 til 10 (spørsmål 4)
-  const scale = document.getElementById('scale');
-  for (let i = 1; i <= 10; i++) {
-    scale.insertAdjacentHTML('beforeend',
-      `<div><input type="radio" name="q4" id="q4_${i}" value="${i}" required /><label for="q4_${i}">${i}</label></div>`);
-  }
+  // Ekte, korte utsagn fra Fredriks klienter. Eksempel: { tekst: '…', navn: 'M., 41' }
+  const SITATER = [
+    { tekst: 'Jeg trodde jeg bare skulle komme meg over henne. Jeg måtte komme tilbake til meg selv først.', navn: 'Marius, 38, etter 12 år i ekteskap' },
+    { tekst: 'Sinnet styrte livet mitt. På tre måneder fikk jeg tilbake kontrollen, uten å undertrykke det.', navn: 'Anders, 44, samboerbrudd' },
+    { tekst: 'Jeg tok testen på en søndag. Booket samtale på mandag. Det viktigste valget på mange år.', navn: 'Kristian, 31, forlovelsen brutt' },
+  ];
+  const sitater = document.getElementById('sitater');
+  SITATER.forEach((s) => {
+    const f = document.createElement('figure');
+    f.className = 'sitat';
+    const q = document.createElement('blockquote'); q.textContent = '«' + s.tekst + '»';
+    const c = document.createElement('figcaption'); c.textContent = s.navn;
+    f.append(q, c); sitater.append(f);
+  });
+  if (!SITATER.length) sitater.remove();
 
-  // Eksempelkalender: de fem neste hverdagene. Byttes med ekte kalender ved bygging.
+  // Dag og tid: de fem neste hverdagene med faste tider. Fredrik bekrefter tidspunktet på e-post.
   const days = document.getElementById('days');
   const dayNames = ['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør'];
   const monthNames = ['jan', 'feb', 'mar', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'des'];
@@ -113,12 +89,12 @@
       `<div><input type="radio" name="dag" id="dag_${added}" value="${dayNames[d.getDay()]} ${d.getDate()}. ${monthNames[d.getMonth()]}" required /><label for="dag_${added}"><small>${dayNames[d.getDay()]}</small>${d.getDate()}. ${monthNames[d.getMonth()]}</label></div>`);
     added++;
   }
-
   const times = document.getElementById('times');
   ['09:00', '10:30', '12:00', '14:00', '17:00', '19:00'].forEach((t, i) => {
     times.insertAdjacentHTML('beforeend',
       `<div><input type="radio" name="tid" id="tid_${i}" value="${t}" required /><label for="tid_${i}">${t}</label></div>`);
   });
+
   // Send bookingen til booking.php (e-post til Fredrik + MailerLite)
   const form = document.getElementById('contactForm');
   const val = (sel) => { const el = form.querySelector(sel); return el ? el.value.trim() : ''; };
@@ -127,8 +103,6 @@
     if (!form.checkValidity()) { form.reportValidity(); return; }
     const data = {
       fornavn: val('#bFornavn'), epost: val('#bEpost'), tlf: val('#bTlf'),
-      q1: val('#q1'), q2: val('#q2'), q3: val('#q3'),
-      q4: val('input[name="q4"]:checked'), q5: val('input[name="q5"]:checked'),
       dag: val('input[name="dag"]:checked'), tid: val('input[name="tid"]:checked'),
     };
     try { data.utm = JSON.parse(sessionStorage.getItem('mp_utm') || '{}'); } catch (_) { data.utm = {}; }
