@@ -8,12 +8,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=3" />
-  <script src="/vsl-assets/track.js?v=2" defer></script>
+  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=4" />
+  <script src="/vsl-assets/track.js?v=3" defer></script>
 </head>
 <body class="side-booking">
 
-<header class="top">
+<header class="top top--slank">
   <div class="container top__inner">
     <a href="/" class="logo">manneprat<span>.</span></a>
   </div>
@@ -21,40 +21,29 @@
 
 <main>
   <div class="container">
-    <form class="booking booking--enkel" id="contactForm" novalidate data-clarity-mask="true">
-      <div class="booking__head">
-        <h1>Book en samtale</h1>
-        <p class="rolig">Samtalen er gratis og uforpliktende. Du trenger ikke forberede noe.</p>
-      </div>
+    <form class="bk" id="contactForm" novalidate data-clarity-mask="true">
+      <h1 class="bk__tittel">Book en gratis samtale</h1>
+      <p class="bk__rolig">Uforpliktende. Du trenger ikke forberede noe.</p>
 
-      <div class="card">
-        <p class="steg">Velg tidspunkt</p>
+      <div class="bk__kort">
         <div class="days" id="days"></div>
         <div class="times" id="times"></div>
 
-        <!-- Sosialt bevis: fylles med ekte utsagn fra Fredriks klienter (SITATER under). Vises ikke når listen er tom. -->
-        <div class="sitater" id="sitater"></div>
-
-        <p class="steg">Hvor kan Fredrik nå deg?</p>
-        <div class="field">
-          <label for="bFornavn">Fornavn</label>
-          <input type="text" id="bFornavn" autocomplete="given-name" required />
+        <div class="bk__felt">
+          <input type="text" id="bFornavn" autocomplete="given-name" placeholder="Fornavn" aria-label="Fornavn" required />
+          <input type="email" id="bEpost" autocomplete="email" inputmode="email" placeholder="E-post" aria-label="E-post" required />
+          <input type="tel" id="bTlf" autocomplete="tel" inputmode="tel" placeholder="Telefon" aria-label="Telefon" required />
         </div>
-        <div class="field">
-          <label for="bEpost">E-post</label>
-          <input type="email" id="bEpost" autocomplete="email" inputmode="email" required />
-        </div>
-        <div class="field">
-          <label for="bTlf">Telefon</label>
-          <input type="tel" id="bTlf" autocomplete="tel" inputmode="tel" required />
-        </div>
-        <label class="consent">
+        <label class="bk__samtykke">
           <input type="checkbox" id="bConsent" required />
-          <span>Jeg godtar at Manneprat lagrer opplysningene mine og kontakter meg om samtalen.</span>
+          <span>Fredrik kan kontakte meg om samtalen.</span>
         </label>
         <p class="form-error" id="bookingError" hidden>Noe gikk galt. Prøv igjen, eller skriv til hei@manneprat.no.</p>
-        <button type="submit" class="btn btn--block">BOOK EN SAMTALE</button>
+        <button type="submit" class="btn btn--block">BOOK SAMTALEN</button>
       </div>
+
+      <!-- Sosialt bevis: ekte utsagn fra Fredriks klienter (SITATER under). Vises ikke når listen er tom. -->
+      <div class="sitater" id="sitater"></div>
     </form>
   </div>
 </main>

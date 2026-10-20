@@ -51,11 +51,11 @@
   function banner() {
     var d = document.createElement('div');
     d.setAttribute('role', 'dialog');
-    d.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;max-width:560px;margin:0 auto;background:#161a21;color:#e8e6e1;border:1px solid #2a303a;border-radius:12px;padding:16px 18px;font:14px/1.45 Inter,system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.45)';
-    d.innerHTML = '<div style="margin-bottom:12px">Vi bruker informasjonskapsler fra Meta og Microsoft Clarity for å måle annonsene våre og se hvordan siden brukes. Er det greit?</div>' +
-      '<div style="display:flex;gap:10px;justify-content:flex-end">' +
-      '<button type="button" data-v="nei" style="background:none;border:1px solid #3a414d;color:#e8e6e1;border-radius:8px;padding:9px 16px;font:inherit;cursor:pointer">Nei takk</button>' +
-      '<button type="button" data-v="ja" style="background:#c9814a;border:0;color:#0e1116;border-radius:8px;padding:9px 18px;font:inherit;font-weight:700;cursor:pointer">Godta</button></div>';
+    d.style.cssText = 'position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;max-width:560px;margin:0 auto;background:#161a21;color:#e8e6e1;border:1px solid #2a303a;border-radius:10px;padding:10px 12px;font:12.5px/1.4 Inter,system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.45);display:flex;gap:10px;align-items:center';
+    d.innerHTML = '<div style="flex:1">Vi bruker informasjonskapsler fra Meta og Microsoft Clarity til å måle annonsene og bruken av siden. Greit?</div>' +
+      '<div style="display:flex;gap:6px;flex-shrink:0">' +
+      '<button type="button" data-v="nei" style="background:none;border:1px solid #3a414d;color:#e8e6e1;border-radius:8px;padding:8px 10px;font:inherit;cursor:pointer">Nei takk</button>' +
+      '<button type="button" data-v="ja" style="background:#c9814a;border:0;color:#0e1116;border-radius:8px;padding:8px 12px;font:inherit;font-weight:700;cursor:pointer">Godta</button></div>';
     d.addEventListener('click', function (e) {
       var v = e.target && e.target.getAttribute('data-v');
       if (!v) return;
@@ -63,6 +63,8 @@
       d.remove();
       if (v === 'ja') loadPixel();
     });
+    // På bookingsiden legges banneret øverst, så det aldri dekker knappen
+    if (document.body.classList.contains('side-booking')) { d.style.bottom = 'auto'; d.style.top = '8px'; }
     document.body.appendChild(d);
   }
 
