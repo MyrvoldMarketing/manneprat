@@ -71,7 +71,8 @@
 
   // Sporing: Calendly sender hendelser til siden med postMessage
   const spor = (n, par, egen) => { if (window.mpTrack) mpTrack(n, par || {}, egen); };
-  spor('Skjema_Vist', {}, true);
+  // track.js lastes med defer og er klar først ved DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', () => spor('Skjema_Vist', {}, true));
   let startet = false;
   window.addEventListener('message', (e) => {
     if (e.origin !== 'https://calendly.com' || !e.data || typeof e.data.event !== 'string') return;
