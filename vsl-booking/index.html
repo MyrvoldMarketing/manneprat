@@ -44,7 +44,7 @@
           <p class="bk__sporsmal"><button type="button" class="bk__tilbake" data-til="2">‹</button><span id="valgtTid"></span></p>
           <div class="bk__felt">
             <input type="text" id="bFornavn" autocomplete="given-name" placeholder="Fornavn" aria-label="Fornavn" required />
-            <input type="email" id="bEpost" autocomplete="email" inputmode="email" placeholder="E-post" aria-label="E-post" required />
+            <input type="tel" id="bTlf" autocomplete="tel" inputmode="tel" placeholder="Telefon" aria-label="Telefon" pattern="[0-9 +]{8,}" required />
           </div>
           <p class="form-error" id="bookingError" hidden>Noe gikk galt. Prøv igjen, eller skriv til hei@manneprat.no.</p>
           <button type="submit" class="btn btn--block">BOOK SAMTALEN</button>
@@ -74,7 +74,7 @@
   });
   if (!SITATER.length) sitater.remove();
 
-  // Dag og tid: de neste ledige dagene (mandag til torsdag) med faste tider. Fredrik bekrefter tidspunktet på e-post.
+  // Dag og tid: de neste ledige dagene (mandag til torsdag) med faste tider. Fredrik bekrefter tidspunktet på telefon.
   const days = document.getElementById('days');
   const dayNames = ['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør'];
   const monthNames = ['jan', 'feb', 'mar', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'des'];
@@ -117,14 +117,14 @@
   document.querySelectorAll('.bk__tilbake').forEach((b) => b.addEventListener('click', () => visSteg(+b.dataset.til)));
   visSteg(1);
 
-  // Send bookingen til booking.php (e-post til Fredrik + MailerLite)
+  // Send bookingen til booking.php (varsel på e-post til Fredrik)
   const form = document.getElementById('contactForm');
   const val = (sel) => { const el = form.querySelector(sel); return el ? el.value.trim() : ''; };
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!form.checkValidity()) { form.reportValidity(); return; }
     const data = {
-      fornavn: val('#bFornavn'), epost: val('#bEpost'),
+      fornavn: val('#bFornavn'), tlf: val('#bTlf'),
       dag: val('input[name="dag"]:checked'), tid: val('input[name="tid"]:checked'),
     };
     try { data.utm = JSON.parse(sessionStorage.getItem('mp_utm') || '{}'); } catch (_) { data.utm = {}; }

@@ -36,7 +36,10 @@ $q3 = trim((string)($data['q3'] ?? ''));
 $q4 = $f('q4');
 $q5 = $f('q5');
 
-if ($fornavn === '' || !filter_var($epost, FILTER_VALIDATE_EMAIL) || $dag === '' || $tid === '') {
+$harEpost = filter_var($epost, FILTER_VALIDATE_EMAIL) !== false;
+$tlfSifre = preg_replace('/\D/', '', $tlf);
+// Bookingsiden spør om telefon; eldre versjoner sendte e-post. Ett av dem må være gyldig.
+if ($fornavn === '' || (!$harEpost && strlen($tlfSifre) < 8) || $dag === '' || $tid === '') {
     mp_json(['ok' => false, 'error' => 'missing_fields'], 400);
 }
 
@@ -47,27 +50,29 @@ if ($annonse === '') { $annonse = 'ukjent'; }
 if ($kampanje !== '') { $annonse .= " (kampanje: {$kampanje})"; }
 $video = $f('video') ?: 'ukjent';
 
-// 1) MailerLite
-$ml = mp_mailerlite_upsert(
-    $config['mailerlite_api_key'],
-    $epost,
-    [
-        'name'       => $fornavn,
-        'phone'      => $tlf,
-        'mp_problem' => $q1 !== '' ? mb_substr($q1, 0, 250) : 'vsl-booking',
-        'mp_message' => "Ønsket tid: {$dag} kl. {$tid}",
-        'mp_source'  => 'vsl-booking',
-    ],
-    $config['mailerlite_group_id'] ?? ''
-);
-if (!$ml['ok']) {
-    error_log('[manneprat] MailerLite error (booking): ' . $ml['error']);
+// 1) MailerLite (bare når vi har e-post)
+if ($harEpost) {
+    $ml = mp_mailerlite_upsert(
+        $config['mailerlite_api_key'],
+        $epost,
+        [
+            'name'       => $fornavn,
+            'phone'      => $tlf,
+            'mp_problem' => $q1 !== '' ? mb_substr($q1, 0, 250) : 'vsl-booking',
+            'mp_message' => "Ønsket tid: {$dag} kl. {$tid}",
+            'mp_source'  => 'vsl-booking',
+        ],
+        $config['mailerlite_group_id'] ?? ''
+    );
+    if (!$ml['ok']) {
+        error_log('[manneprat] MailerLite error (booking): ' . $ml['error']);
+    }
 }
 
 // 2) Varsel til Fredrik
 $to = $config['notify_email'] ?? 'hei@manneprat.no';
 $subject = "Ny booking: {$fornavn}, {$dag} kl. {$tid}";
-$body = "Ny booking fra VSL-siden. Ønsket tid må bekreftes på e-post.\n\n"
+$body = "Ny booking fra VSL-siden. Ring eller send SMS for å bekrefte tidspunktet.\n\n"
       . "Ønsket tid: {$dag} kl. {$tid}\n"
       . "Navn:       {$fornavn}\n"
       . "E-post:     {$epost}\n"
@@ -89,7 +94,7 @@ foreach ($sporsmal as $sp => $sv) {
 
 $headers = [
     'From: noreply@manneprat.no',
-    'Reply-To: ' . $epost,
+    $harEpost ? 'Reply-To: ' . $epost : 'X-Manneprat: booking',
     'Content-Type: text/plain; charset=UTF-8',
 ];
 $sent = @mail($to, $subject, $body, implode("\r\n", $headers));
