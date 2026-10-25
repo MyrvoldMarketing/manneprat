@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=7" />
+  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=5" />
   <script src="/vsl-assets/track.js?v=3" defer></script>
 </head>
 <body class="side-booking">
@@ -21,16 +21,39 @@
 
 <main>
   <div class="container">
-    <div class="bk">
+    <form class="bk" id="contactForm" novalidate data-clarity-mask="true">
       <h1 class="bk__tittel">Book en gratis samtale</h1>
       <p class="bk__rolig">20 minutter med Fredrik der dere ser på situasjonen din.<br />Uforpliktende, og du trenger ikke forberede noe.</p>
 
-      <!-- Fredriks Calendly: «Evalueringssamtale med Fredrik» -->
-      <div class="bk__kalender" id="kalender"></div>
+      <div class="bk__kort">
+        <ol class="bk__steg" aria-label="Steg">
+          <li data-steg="1">Dato</li><li data-steg="2">Tid</li><li data-steg="3">Info</li>
+        </ol>
+
+        <section class="bk__del" id="del1">
+          <p class="bk__sporsmal">Hvilken dag passer?</p>
+          <div class="days" id="days"></div>
+        </section>
+
+        <section class="bk__del" id="del2" hidden>
+          <p class="bk__sporsmal"><button type="button" class="bk__tilbake" data-til="1">‹</button><span>Hvilket tidspunkt <span id="valgtDag"></span>?</span></p>
+          <div class="times" id="times"></div>
+        </section>
+
+        <section class="bk__del" id="del3" hidden>
+          <p class="bk__sporsmal"><button type="button" class="bk__tilbake" data-til="2">‹</button><span id="valgtTid"></span></p>
+          <div class="bk__felt">
+            <input type="text" id="bFornavn" autocomplete="given-name" placeholder="Fornavn" aria-label="Fornavn" required />
+            <input type="email" id="bEpost" autocomplete="email" inputmode="email" placeholder="E-post" aria-label="E-post" required />
+          </div>
+          <p class="form-error" id="bookingError" hidden>Noe gikk galt. Prøv igjen, eller skriv til hei@manneprat.no.</p>
+          <button type="submit" class="btn btn--block">BOOK SAMTALEN</button>
+        </section>
+      </div>
 
       <!-- Sosialt bevis: ekte utsagn fra Fredriks klienter (SITATER under). Vises ikke når listen er tom. -->
       <div class="sitater" id="sitater"></div>
-    </div>
+    </form>
   </div>
 </main>
 
@@ -51,43 +74,75 @@
   });
   if (!SITATER.length) sitater.remove();
 
-  // Calendly innebygd. Annonse (utm_*) og hvilken video de kom fra følger med til Fredrik.
-  const KALENDER = 'https://calendly.com/hei-manneprat/evalueringssamtale-med-fredrik';
-  let utm = {}, video = '';
-  try { utm = JSON.parse(sessionStorage.getItem('mp_utm') || '{}'); } catch (_) {}
-  try { video = sessionStorage.getItem('mp_video') || ''; } catch (_) {}
-  const p = new URLSearchParams({
-    embed_domain: location.hostname, embed_type: 'Inline',
-    hide_event_type_details: '1', hide_gdpr_banner: '1',
-    background_color: '141821', text_color: 'e8e6e1', primary_color: 'c9814a',
+  // Dag og tid: de neste ledige dagene (mandag til torsdag) med faste tider. Fredrik bekrefter tidspunktet på e-post.
+  const days = document.getElementById('days');
+  const dayNames = ['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør'];
+  const monthNames = ['jan', 'feb', 'mar', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'des'];
+  const d = new Date();
+  let added = 0;
+  while (added < 10) {
+    d.setDate(d.getDate() + 1);
+    if (d.getDay() === 0 || d.getDay() >= 5) continue; // mandag til torsdag, som Fredriks Calendly
+    days.insertAdjacentHTML('beforeend',
+      `<div><input type="radio" name="dag" id="dag_${added}" value="${dayNames[d.getDay()]} ${d.getDate()}. ${monthNames[d.getMonth()]}" required /><label for="dag_${added}"><small>${dayNames[d.getDay()]}</small>${d.getDate()}. ${monthNames[d.getMonth()]}</label></div>`);
+    added++;
+  }
+  const times = document.getElementById('times');
+  ['09:00', '10:30', '12:00', '14:00', '17:00', '19:00'].forEach((t, i) => {
+    times.insertAdjacentHTML('beforeend',
+      `<div><input type="radio" name="tid" id="tid_${i}" value="${t}" required /><label for="tid_${i}">${t}</label></div>`);
   });
-  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach((k) => { if (utm[k]) p.set(k, utm[k]); });
-  if (video || utm.utm_term) p.set('utm_term', video || utm.utm_term);
-  const ramme = document.createElement('iframe');
-  ramme.src = KALENDER + '?' + p.toString();
-  ramme.title = 'Velg tidspunkt for samtalen';
-  ramme.setAttribute('frameborder', '0');
-  document.getElementById('kalender').append(ramme);
 
-  // Sporing: Calendly sender hendelser til siden med postMessage
-  const spor = (n, par, egen) => { if (window.mpTrack) mpTrack(n, par || {}, egen); };
-  // track.js lastes med defer og er klar først ved DOMContentLoaded
-  document.addEventListener('DOMContentLoaded', () => spor('Skjema_Vist', {}, true));
-  let startet = false;
-  window.addEventListener('message', (e) => {
-    if (e.origin !== 'https://calendly.com' || !e.data || typeof e.data.event !== 'string') return;
-    const h = e.data.event;
-    if (h === 'calendly.page_height' && e.data.payload && e.data.payload.height) {
-      ramme.style.height = Math.max(560, parseInt(e.data.payload.height, 10)) + 'px';
+
+  // Tre steg: dato, tid, info. Valget sender deg videre til neste steg.
+  const deler = [1, 2, 3].map((n) => document.getElementById('del' + n));
+  function visSteg(n) {
+    deler.forEach((el, i) => { el.hidden = i !== n - 1; });
+    document.querySelectorAll('.bk__steg li').forEach((li) => {
+      li.classList.toggle('er-aktiv', +li.dataset.steg === n);
+      li.classList.toggle('er-ferdig', +li.dataset.steg < n);
+    });
+    if (n === 3 && matchMedia('(min-width: 861px)').matches) document.getElementById('bFornavn').focus();
+  }
+  document.getElementById('days').addEventListener('change', (e) => {
+    document.getElementById('valgtDag').textContent = e.target.value.replace(/^\S+ /, 'den ');
+    visSteg(2);
+  });
+  document.getElementById('times').addEventListener('change', () => {
+    const dag = document.querySelector('input[name="dag"]:checked').value;
+    const tid = document.querySelector('input[name="tid"]:checked').value;
+    document.getElementById('valgtTid').textContent = dag.charAt(0).toUpperCase() + dag.slice(1) + ' kl. ' + tid;
+    visSteg(3);
+  });
+  document.querySelectorAll('.bk__tilbake').forEach((b) => b.addEventListener('click', () => visSteg(+b.dataset.til)));
+  visSteg(1);
+
+  // Send bookingen til booking.php (e-post til Fredrik + MailerLite)
+  const form = document.getElementById('contactForm');
+  const val = (sel) => { const el = form.querySelector(sel); return el ? el.value.trim() : ''; };
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    const data = {
+      fornavn: val('#bFornavn'), epost: val('#bEpost'),
+      dag: val('input[name="dag"]:checked'), tid: val('input[name="tid"]:checked'),
+    };
+    try { data.utm = JSON.parse(sessionStorage.getItem('mp_utm') || '{}'); } catch (_) { data.utm = {}; }
+    try { data.video = sessionStorage.getItem('mp_video') || ''; } catch (_) {}
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    let ok = false;
+    try {
+      const res = await fetch('/booking.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      ok = res.ok;
+    } catch (_) {}
+    if (ok) {
+      try { sessionStorage.setItem('mp_takk', JSON.stringify({ fornavn: data.fornavn, problem: 'vsl-booking' })); } catch (_) {}
+      window.location.href = '/takk.html';
+      return;
     }
-    if (h === 'calendly.date_and_time_selected' && !startet) {
-      startet = true; spor('Skjema_Startet', {}, true);
-    }
-    if (h === 'calendly.event_scheduled') {
-      spor('Skjema_Utfylt', {}, true);
-      try { sessionStorage.setItem('mp_takk', JSON.stringify({ fornavn: '', problem: 'vsl-booking' })); } catch (_) {}
-      setTimeout(() => { window.location.href = '/takk.html'; }, 400);
-    }
+    btn.disabled = false;
+    document.getElementById('bookingError').hidden = false;
   });
 </script>
 
