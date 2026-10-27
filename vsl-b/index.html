@@ -7,7 +7,9 @@
   <title>Videoen | Manneprat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="/vsl-assets/vsl-b-poster-1280.jpg" fetchpriority="high" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="/vsl-assets/funnel.css?v=2" />
   <script src="/vsl-assets/track.js?v=3" defer></script>
 </head>
@@ -24,7 +26,8 @@
     <h1>Det er forskjell på å komme seg gjennom livet og faktisk leve det.</h1>
 
     <div class="video video--b">
-      <video controls playsinline preload="metadata" poster="/vsl-assets/vsl-b-poster.jpg">
+      <video controls playsinline preload="metadata" poster="/vsl-assets/vsl-b-poster-1280.jpg">
+        <source src="/vsl-assets/vsl-b-720.mp4" type="video/mp4" media="(max-width: 900px)" />
         <source src="/vsl-assets/vsl-b.mp4" type="video/mp4" />
       </video>
     </div>
