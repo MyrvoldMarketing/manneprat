@@ -301,3 +301,4 @@ input:focus-visible + label { outline: 2px solid var(--text); outline-offset: 2p
 .ep .bk__felt input::placeholder { color: var(--muted); }
 .ep .btn { padding: 18px 20px; margin-top: 4px; }
 .bk__felt[hidden] { display: none; }
+.bk__naa { font-weight: 600; color: var(--accent-2); font-size: 0.95rem; margin: 0 0 12px; }

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=7" />
+  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=8" />
   <script src="/vsl-assets/track.js?v=3" defer></script>
 </head>
 <body class="side-booking">
@@ -42,12 +42,13 @@
 
         <section class="bk__del" id="del3" hidden>
           <p class="bk__sporsmal"><button type="button" class="bk__tilbake" data-til="2">‹</button><span id="valgtTid"></span></p>
+          <p class="bk__naa" id="bkNaa">Nesten ferdig. Skriv navn og telefon, og trykk på knappen for å sende bookingen.</p>
           <div class="bk__felt">
             <input type="text" id="bFornavn" autocomplete="given-name" placeholder="Fornavn" aria-label="Fornavn" required />
             <input type="tel" id="bTlf" autocomplete="tel" inputmode="tel" placeholder="Telefon" aria-label="Telefon" pattern="[0-9 +]{8,}" required />
           </div>
           <p class="form-error" id="bookingError" hidden>Noe gikk galt. Prøv igjen, eller skriv til hei@manneprat.no.</p>
-          <button type="submit" class="btn btn--block">BOOK SAMTALEN</button>
+          <button type="submit" class="btn btn--block">BEKREFT SAMTALEN</button>
         </section>
       </div>
 
@@ -92,7 +93,9 @@
 
   // Tre steg: dato, tid, info. Valget sender deg videre til neste steg.
   const deler = [1, 2, 3].map((n) => document.getElementById('del' + n));
+  let steg3Sendt = false;
   function visSteg(n) {
+    if (n === 3 && !steg3Sendt && window.mpTrack) { steg3Sendt = true; mpTrack('Booking_SisteSteg', { video: (function () { try { return sessionStorage.getItem('mp_video') || ''; } catch (_) { return ''; } })() }, true); }
     deler.forEach((el, i) => { el.hidden = i !== n - 1; });
     document.querySelectorAll('.bk__steg li').forEach((li) => {
       li.classList.toggle('er-aktiv', +li.dataset.steg === n);
@@ -120,6 +123,7 @@
       document.getElementById('bFornavn').value = o.fornavn;
       document.getElementById('bTlf').value = o.tlf;
       document.querySelector('.bk__felt').hidden = true;
+      document.getElementById('bkNaa').textContent = 'Nesten ferdig. Trykk på knappen for å sende bookingen.';
       document.querySelector('.bk__steg li[data-steg="3"]').textContent = 'Bekreft';
       const info = document.createElement('p');
       info.className = 'bk__rolig';
