@@ -288,3 +288,15 @@ input:focus-visible + label { outline: 2px solid var(--text); outline-offset: 2p
   .oc__tittel { margin-bottom: 18px; }
   .oc__igjen { margin-top: 40px; }
 }
+
+/* VSL-C: exit-popup */
+.ep { position: fixed; inset: 0; z-index: 10000; background: rgba(5,7,10,.72); display: grid; place-items: center; padding: 16px; }
+.ep[hidden] { display: none; }
+.ep__boks { position: relative; width: 100%; max-width: 420px; background: var(--bg-2); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 26px 22px 20px; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+.ep__lukk { position: absolute; top: 8px; right: 10px; width: 36px; height: 36px; font-size: 1.6rem; line-height: 1; color: var(--text-dim); border-radius: 50%; }
+.ep__lukk:hover { color: var(--text); background: var(--bg-3); }
+.ep__tittel { font-family: var(--font-display); font-weight: 900; font-size: 1.6rem; color: var(--text); text-align: center; margin: 0 0 4px; }
+.ep__tekst { text-align: center; margin: 0 0 16px; font-size: 0.95rem; }
+.ep .bk__felt input { padding: 14px; font-size: 16px; }
+.ep .bk__felt input::placeholder { color: var(--muted); }
+.ep .btn { padding: 18px 20px; margin-top: 4px; }

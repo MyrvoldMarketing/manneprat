@@ -62,6 +62,23 @@
   </div>
 </main>
 
+<!-- Exit-popup: vises én gang når besøkende er på vei bort, med samme skjema -->
+<div class="ep" id="exitPopup" hidden role="dialog" aria-modal="true" aria-labelledby="epTittel">
+  <form class="ep__boks" id="epForm" novalidate data-clarity-mask="true">
+    <button type="button" class="ep__lukk" aria-label="Lukk">×</button>
+    <p class="ep__tittel" id="epTittel">Du er nesten der</p>
+    <p class="ep__tekst">Fyll inn, så får du se videoen med en gang.</p>
+    <div class="bk__felt">
+      <input type="text" id="pFornavn" autocomplete="given-name" placeholder="Fornavn" aria-label="Fornavn" required />
+      <input type="email" id="pEpost" autocomplete="email" inputmode="email" placeholder="E-post" aria-label="E-post" required />
+      <input type="tel" id="pTlf" autocomplete="tel" inputmode="tel" placeholder="Telefon" aria-label="Telefon" pattern="[0-9 +]{8,}" required />
+    </div>
+    <p class="form-error" id="epError" hidden>Noe gikk galt. Prøv igjen, eller skriv til hei@manneprat.no.</p>
+    <button type="submit" class="btn btn--block">SE VIDEOEN NÅ</button>
+    <p class="oc__smaa">Helt gratis og uforpliktende. Du får også Fredriks nyhetsbrev, og kan melde deg av når du vil.</p>
+  </form>
+</div>
+
 <script>
   const form = document.getElementById('optinForm');
   const val = (id) => document.getElementById(id).value.trim();
@@ -94,6 +111,51 @@
     }
     btn.disabled = false;
     document.getElementById('optinError').hidden = false;
+  });
+
+  // ---------- Exit-popup ----------
+  const ep = document.getElementById('exitPopup');
+  const epForm = document.getElementById('epForm');
+  let epVist = false;
+  try { epVist = sessionStorage.getItem('mp_exit') === '1'; } catch (_) {}
+  const sendt = () => { try { return !!sessionStorage.getItem('mp_optin'); } catch (_) { return false; } };
+  function visPopup() {
+    if (epVist || sendt() || Date.now() - start < 4000) return;
+    epVist = true;
+    try { sessionStorage.setItem('mp_exit', '1'); } catch (_) {}
+    // Det som allerede er skrevet i skjemaet, følger med
+    [['oFornavn', 'pFornavn'], ['oEpost', 'pEpost'], ['oTlf', 'pTlf']].forEach(([a, b]) => { document.getElementById(b).value = document.getElementById(a).value; });
+    ep.hidden = false;
+    if (window.mpTrack) mpTrack('Exit_Popup_Vist', {}, true);
+  }
+  const start = Date.now();
+  function lukk() { ep.hidden = true; }
+  ep.querySelector('.ep__lukk').addEventListener('click', lukk);
+  ep.addEventListener('click', (e) => { if (e.target === ep) lukk(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !ep.hidden) lukk(); });
+  // PC: musa forlater vinduet mot toppen (mot faner og lukkeknapp)
+  document.addEventListener('mouseout', (e) => { if (!e.relatedTarget && e.clientY <= 0) visPopup(); });
+  // Mobil: raskt sveip oppover etter å ha scrollet ned, eller tilbake til fanen etter å ha vært borte
+  let sistY = window.scrollY, sistT = Date.now(), maksY = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY, t = Date.now();
+    maksY = Math.max(maksY, y);
+    if (maksY > 300 && sistY - y > 120 && t - sistT < 250) visPopup();
+    sistY = y; sistT = t;
+  }, { passive: true });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && matchMedia('(max-width: 860px)').matches) visPopup(); });
+  // Popup-skjemaet sender via hovedskjemaet, så alt går samme vei
+  epForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!epForm.checkValidity()) { epForm.reportValidity(); return; }
+    [['pFornavn', 'oFornavn'], ['pEpost', 'oEpost'], ['pTlf', 'oTlf']].forEach(([a, b]) => { document.getElementById(b).value = document.getElementById(a).value; });
+    epForm.querySelector('button[type="submit"]').disabled = true;
+    form.requestSubmit();
+    // Hovedskjemaet viser feilen sin; speil den i popupen
+    setTimeout(function sjekk() {
+      if (!document.getElementById('optinError').hidden) { document.getElementById('epError').hidden = false; epForm.querySelector('button[type="submit"]').disabled = false; }
+      else if (!ep.hidden && location.pathname.indexOf('/video') < 0) setTimeout(sjekk, 300);
+    }, 300);
   });
 </script>
 
