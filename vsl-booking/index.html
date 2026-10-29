@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=5" />
+  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=6" />
   <script src="/vsl-assets/track.js?v=3" defer></script>
 </head>
 <body class="side-booking">
@@ -117,6 +117,12 @@
   document.querySelectorAll('.bk__tilbake').forEach((b) => b.addEventListener('click', () => visSteg(+b.dataset.til)));
   visSteg(1);
 
+  // Kommer fra VSL-C: navn og telefon er allerede gitt, så de fylles inn
+  try {
+    const o = JSON.parse(sessionStorage.getItem('mp_optin') || 'null');
+    if (o) { document.getElementById('bFornavn').value = o.fornavn || ''; document.getElementById('bTlf').value = o.tlf || ''; }
+  } catch (_) {}
+
   // Send bookingen til booking.php (varsel på e-post til Fredrik)
   const form = document.getElementById('contactForm');
   const val = (sel) => { const el = form.querySelector(sel); return el ? el.value.trim() : ''; };
@@ -129,6 +135,7 @@
     };
     try { data.utm = JSON.parse(sessionStorage.getItem('mp_utm') || '{}'); } catch (_) { data.utm = {}; }
     try { data.video = sessionStorage.getItem('mp_video') || ''; } catch (_) {}
+    try { data.epost = (JSON.parse(sessionStorage.getItem('mp_optin') || 'null') || {}).epost || ''; } catch (_) {}
     const btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
     let ok = false;

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Gratis video | Manneprat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="image" href="/vsl-assets/vsl-b-poster-1280.jpg" fetchpriority="high" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
+  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=6" />
+  <script src="/vsl-assets/track.js?v=4" defer></script>
+</head>
+<body class="side-optin">
+
+<header class="top top--slank">
+  <div class="container top__inner">
+    <a href="/" class="logo">manneprat<span>.</span></a>
+  </div>
+</header>
+
+<main>
+  <div class="container oc">
+    <p class="oc__over">Gratis video for menn som har livet på stell, men likevel ikke har det bra</p>
+    <h1 class="oc__tittel">Hvorfor du fortsatt går rundt med uro, selv om livet egentlig fungerer</h1>
+
+    <div class="oc__grid">
+      <div class="oc__venstre">
+        <div class="oc__bilde" aria-hidden="true">
+          <img src="/vsl-assets/vsl-b-poster-1280.jpg" alt="" width="1280" height="720" />
+          <span class="oc__lengde">6 min</span>
+        </div>
+        <p class="oc__lead">Fredrik går gjennom de tre mønstrene han ser igjen og igjen hos menn han snakker med, og hva som ofte ligger under.</p>
+      </div>
+
+      <form class="oc__kort" id="optinForm" novalidate data-clarity-mask="true">
+        <p class="oc__skjematittel">Hvor skal vi sende videoen?</p>
+        <div class="bk__felt">
+          <input type="text" id="oFornavn" name="fornavn" autocomplete="given-name" placeholder="Fornavn" aria-label="Fornavn" required />
+          <input type="email" id="oEpost" name="epost" autocomplete="email" inputmode="email" placeholder="E-post" aria-label="E-post" required />
+          <input type="tel" id="oTlf" name="tlf" autocomplete="tel" inputmode="tel" placeholder="Telefon" aria-label="Telefon" pattern="[0-9 +]{8,}" required />
+        </div>
+        <p class="form-error" id="optinError" hidden>Noe gikk galt. Prøv igjen, eller skriv til hei@manneprat.no.</p>
+        <button type="submit" class="btn btn--block">SE VIDEOEN NÅ</button>
+        <p class="oc__smaa">Gratis. Fredrik kan ta kontakt etterpå. Opplysningene brukes også til å måle annonsene våre hos Meta.</p>
+      </form>
+    </div>
+
+    <section class="oc__igjen">
+      <h2>Kjenner du deg igjen?</h2>
+      <ul>
+        <li>Jobben fungerer, regningene blir betalt, og ting blir gjort. Likevel er det noe som ikke stemmer helt.</li>
+        <li>Du kjenner mindre glede enn før, mer uro og mer overtenking.</li>
+        <li>Du blir lettere irritert og er konstant opptatt.</li>
+        <li>Du sier ja når du egentlig mener nei.</li>
+        <li>Når det endelig blir stille rundt deg, merker du hvor mye som foregår på innsiden.</li>
+        <li>Du vet egentlig ikke hva du vil lenger.</li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<script>
+  const form = document.getElementById('optinForm');
+  const val = (id) => document.getElementById(id).value.trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    const eventId = 'optin-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+    const data = { fornavn: val('oFornavn'), epost: val('oEpost'), tlf: val('oTlf'), event_id: eventId, url: location.href };
+    try { data.utm = JSON.parse(sessionStorage.getItem('mp_utm') || '{}'); } catch (_) { data.utm = {}; }
+    try { data.fbc = sessionStorage.getItem('mp_fbc') || ''; } catch (_) {}
+    const ck = (n) => (document.cookie.match('(?:^|; )' + n + '=([^;]*)') || [])[1] || '';
+    data.fbc = ck('_fbc') || data.fbc; data.fbp = ck('_fbp');
+
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    // Pikselen (bare med samtykke) og serveren sender samme eventID, så Meta teller påmeldingen én gang
+    if (window.mpTrack) mpTrack('Lead', { content_name: 'vsl-c-optin', content_category: 'vsl-c-optin' }, false, { eventID: eventId });
+    let ok = false;
+    try {
+      const res = await fetch('/optin.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      ok = res.ok;
+    } catch (_) {}
+    if (ok) {
+      try {
+        sessionStorage.setItem('mp_optin', JSON.stringify({ fornavn: data.fornavn, tlf: data.tlf, epost: data.epost }));
+        sessionStorage.setItem('mp_video', 'VSL-C');
+      } catch (_) {}
+      window.location.href = '/vsl-c/video/';
+      return;
+    }
+    btn.disabled = false;
+    document.getElementById('optinError').hidden = false;
+  });
+</script>
+
+</body>
+</html>

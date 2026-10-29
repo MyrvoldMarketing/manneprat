@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Videoen | Manneprat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="image" href="/vsl-assets/vsl-b-poster-1280.jpg" fetchpriority="high" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
+  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=6" />
+  <script src="/vsl-assets/track.js?v=4" defer></script>
+</head>
+<body class="side-vslc">
+
+<header class="top">
+  <div class="container top__inner">
+    <a href="/" class="logo">manneprat<span>.</span></a>
+  </div>
+</header>
+
+<main>
+  <div class="container container--narrow vsl">
+    <p class="oc__over" id="hei" data-clarity-mask="true">Her er videoen</p>
+    <h1>Det er forskjell på å komme seg gjennom livet og faktisk leve det.</h1>
+
+    <div class="video video--b">
+      <video controls playsinline preload="metadata" poster="/vsl-assets/vsl-b-poster-1280.jpg">
+        <source src="/vsl-assets/vsl-b-720.mp4" type="video/mp4" media="(max-width: 900px)" />
+        <source src="/vsl-assets/vsl-b.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <div class="vsl__cta">
+      <a href="/vsl-booking/" class="btn" onclick="try{sessionStorage.setItem('mp_video','VSL-C')}catch(e){}">BOOK EN GRATIS SAMTALE</a>
+    </div>
+
+    <section class="oc__igjen oc__igjen--venstre">
+      <h2>Videoen er for deg som kjenner deg igjen i noe av dette</h2>
+      <ul>
+        <li>Du holder deg i gang med jobb, telefonen, trening og prosjekter, så du slipper å kjenne etter.</li>
+        <li>Du tilpasser deg, unngår konflikter og prøver å være den fornuftige.</li>
+        <li>Dine egne behov, grenser og ønsker havner lenger ned på listen.</li>
+        <li>Du prøver å løse alt inne i hodet, og hodet blir bare fullere.</li>
+      </ul>
+      <h2>Samtalen med Fredrik</h2>
+      <p>Når du har sett videoen, kan du booke en gratis samtale på 20 minutter. Dere ser på hva som skjer akkurat nå, hvor lenge du har hatt det sånn, hva du ønsker skal være annerledes, og hva som står i veien.</p>
+    </section>
+  </div>
+</main>
+
+<script>
+  try {
+    const o = JSON.parse(sessionStorage.getItem('mp_optin') || 'null');
+    if (o && o.fornavn) document.getElementById('hei').textContent = 'Her er videoen, ' + o.fornavn;
+  } catch (_) {}
+</script>
+
+</body>
+</html>

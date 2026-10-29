@@ -14,6 +14,14 @@ return [
     // Hvor notifikasjons-mail fra kontaktskjemaet sendes
     'notify_email' => 'hei@manneprat.no',
 
+    // Meta Conversions API (brukes av optin.php). Tomt token = sendes bare fra pikselen.
+    // Token lages i Events Manager -> pikselen -> Settings -> Conversions API -> Generate access token.
+    'meta_pixel_id' => '1557481308803825',
+    'meta_capi_token' => '',
+    'meta_api_version' => 'v24.0',
+    // Fyll inn koden fra Events Manager -> Test events for å teste, og tøm den etterpå.
+    'meta_test_event_code' => '',
+
     // Tillatte origins (CORS). Legg til prod-domenet ditt.
     'allowed_origins' => [
         'https://manneprat.no',

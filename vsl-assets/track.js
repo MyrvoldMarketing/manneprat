@@ -12,6 +12,8 @@
   // Ta vare på hvilken annonse besøket kom fra (utm_*), så det kan følge med skjemaet
   try {
     var q = new URLSearchParams(location.search), utm = {};
+    // fbclid fra annonseklikket, så serveren kan koble påmeldingen til klikket uten informasjonskapsler
+    if (q.get('fbclid')) sessionStorage.setItem('mp_fbc', 'fb.1.' + Date.now() + '.' + q.get('fbclid'));
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
       if (q.get(k)) utm[k] = q.get(k);
     });
@@ -43,8 +45,10 @@
   }
 
   // mpTrack('Lead') = standardhendelse, mpTrack('VSL_25', {...}, true) = egendefinert
-  window.mpTrack = function (name, params, custom) {
+  // opts = { eventID } når samme hendelse også sendes fra serveren (Conversions API), så Meta teller den én gang
+  window.mpTrack = function (name, params, custom, opts) {
     var a = [custom ? 'trackCustom' : 'track', name, params || {}];
+    if (opts) a.push(opts);
     if (loaded) fbq.apply(null, a); else queue.push(a);
   };
 
