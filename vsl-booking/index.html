@@ -59,11 +59,7 @@
 
 <script>
   // Ekte, korte utsagn fra Fredriks klienter. Eksempel: { tekst: '…', navn: 'M., 41' }
-  const SITATER = [
-    { tekst: 'Sinnet styrte livet mitt. På tre måneder fikk jeg tilbake kontrollen, uten å undertrykke det.', navn: 'Anders, 44, samboerbrudd' },
-    { tekst: 'Jeg tok testen på en søndag. Booket samtale på mandag. Det viktigste valget på mange år.', navn: 'Kristian, 31, forlovelsen brutt' },
-    { tekst: 'Jeg trodde jeg bare skulle komme meg over henne. Jeg måtte komme tilbake til meg selv først.', navn: 'Marius, 38, etter 12 år i ekteskap' },
-  ];
+  const SITATER = [];
   const sitater = document.getElementById('sitater');
   SITATER.forEach((s) => {
     const f = document.createElement('figure');
