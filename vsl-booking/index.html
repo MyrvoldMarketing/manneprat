@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=6" />
+  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=7" />
   <script src="/vsl-assets/track.js?v=3" defer></script>
 </head>
 <body class="side-booking">
@@ -102,7 +102,7 @@
       li.classList.toggle('er-aktiv', +li.dataset.steg === n);
       li.classList.toggle('er-ferdig', +li.dataset.steg < n);
     });
-    if (n === 3 && matchMedia('(min-width: 861px)').matches) document.getElementById('bFornavn').focus();
+    if (n === 3 && matchMedia('(min-width: 861px)').matches && !document.querySelector('.bk__felt').hidden) document.getElementById('bFornavn').focus();
   }
   document.getElementById('days').addEventListener('change', (e) => {
     document.getElementById('valgtDag').textContent = e.target.value.replace(/^\S+ /, 'den ');
@@ -117,10 +117,19 @@
   document.querySelectorAll('.bk__tilbake').forEach((b) => b.addEventListener('click', () => visSteg(+b.dataset.til)));
   visSteg(1);
 
-  // Kommer fra VSL-C: navn og telefon er allerede gitt, så de fylles inn
+  // Kommer fra VSL-C: navn og telefon er allerede gitt. Feltene skjules, så de bare velger dato og tid.
   try {
     const o = JSON.parse(sessionStorage.getItem('mp_optin') || 'null');
-    if (o) { document.getElementById('bFornavn').value = o.fornavn || ''; document.getElementById('bTlf').value = o.tlf || ''; }
+    if (o && o.fornavn && (o.tlf || '').replace(/\D/g, '').length >= 8) {
+      document.getElementById('bFornavn').value = o.fornavn;
+      document.getElementById('bTlf').value = o.tlf;
+      document.querySelector('.bk__felt').hidden = true;
+      document.querySelector('.bk__steg li[data-steg="3"]').textContent = 'Bekreft';
+      const info = document.createElement('p');
+      info.className = 'bk__rolig';
+      info.textContent = 'Fredrik ringer deg på ' + o.tlf + ' for å bekrefte tidspunktet.';
+      document.querySelector('.bk__felt').after(info);
+    }
   } catch (_) {}
 
   // Send bookingen til booking.php (varsel på e-post til Fredrik)

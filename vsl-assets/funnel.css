@@ -300,3 +300,4 @@ input:focus-visible + label { outline: 2px solid var(--text); outline-offset: 2p
 .ep .bk__felt input { padding: 14px; font-size: 16px; }
 .ep .bk__felt input::placeholder { color: var(--muted); }
 .ep .btn { padding: 18px 20px; margin-top: 4px; }
+.bk__felt[hidden] { display: none; }
