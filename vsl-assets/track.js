@@ -68,24 +68,29 @@
   };
 
   function banner() {
+    // Valget vises midt på skjermen ved første besøk, så det ikke overses. «Nei takk» er like lett som «Godta».
+    var bg = document.createElement('div');
+    bg.id = 'mp-banner';
+    bg.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(8,10,14,.62);display:flex;align-items:center;justify-content:center;padding:16px';
     var d = document.createElement('div');
-    d.id = 'mp-banner';
     d.setAttribute('role', 'dialog');
-    d.style.cssText = 'position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;max-width:560px;margin:0 auto;background:#161a21;color:#e8e6e1;border:1px solid #2a303a;border-radius:10px;padding:10px 12px;font:12.5px/1.4 Inter,system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.45);display:flex;gap:10px;align-items:center';
-    d.innerHTML = '<div style="flex:1">Vi bruker informasjonskapsler fra Meta og Microsoft Clarity til å måle annonsene og bruken av siden. Greit?</div>' +
-      '<div style="display:flex;gap:6px;flex-shrink:0">' +
-      '<button type="button" data-v="nei" style="background:none;border:1px solid #3a414d;color:#e8e6e1;border-radius:8px;padding:8px 10px;font:inherit;cursor:pointer">Nei takk</button>' +
-      '<button type="button" data-v="ja" style="background:#c9814a;border:0;color:#0e1116;border-radius:8px;padding:8px 12px;font:inherit;font-weight:700;cursor:pointer">Godta</button></div>';
+    d.setAttribute('aria-modal', 'true');
+    d.setAttribute('aria-label', 'Informasjonskapsler');
+    d.style.cssText = 'width:100%;max-width:380px;background:#161a21;color:#e8e6e1;border:1px solid #2a303a;border-radius:14px;padding:20px;font:14px/1.5 Inter,system-ui,sans-serif;box-shadow:0 20px 50px rgba(0,0,0,.5)';
+    d.innerHTML = '<div style="font-weight:700;font-size:16px;margin:0 0 6px">Informasjonskapsler</div>' +
+      '<div style="margin:0 0 16px;color:#b9b6b0">Vi bruker informasjonskapsler fra Meta og Microsoft Clarity til å måle annonsene og bruken av siden. Er det greit?</div>' +
+      '<div style="display:flex;gap:8px">' +
+      '<button type="button" data-v="nei" style="flex:1;background:none;border:1px solid #3a414d;color:#e8e6e1;border-radius:10px;padding:12px;font:inherit;font-weight:600;cursor:pointer">Nei takk</button>' +
+      '<button type="button" data-v="ja" style="flex:1;background:#c9814a;border:0;color:#0e1116;border-radius:10px;padding:12px;font:inherit;font-weight:700;cursor:pointer">Godta</button></div>';
+    bg.appendChild(d);
     d.addEventListener('click', function (e) {
       var v = e.target && e.target.getAttribute('data-v');
       if (!v) return;
       try { localStorage.setItem(KEY, v); } catch (_) {}
-      d.remove();
+      bg.remove();
       if (v === 'ja') loadPixel();
     });
-    // På bookingsiden legges banneret øverst, så det aldri dekker knappen
-    if (document.body.classList.contains('side-booking')) { d.style.bottom = 'auto'; d.style.top = '8px'; }
-    document.body.appendChild(d);
+    document.body.appendChild(bg);
   }
 
   var valg = null;
