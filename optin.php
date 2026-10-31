@@ -118,7 +118,7 @@ if ($token !== '') {
         $payload['test_event_code'] = (string)$config['meta_test_event_code'];
     }
 
-    $pixel = (string)($config['meta_pixel_id'] ?? '1557481308803825');
+    $pixel = (string)($config['meta_pixel_id'] ?? '9511327085566493');
     $ver = (string)($config['meta_api_version'] ?? 'v24.0');
     $ch = curl_init("https://graph.facebook.com/{$ver}/{$pixel}/events?access_token=" . urlencode($token));
     curl_setopt_array($ch, [

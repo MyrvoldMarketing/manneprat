@@ -39,6 +39,7 @@
       })(window, document, 'clarity', 'script', CLARITY_ID);
     }
     fbq('init', PIXEL_ID);
+    fbq('init', '9511327085566493'); // Fredriks egen datakilde, samme som serveren sender til
     fbq('track', 'PageView');
     queue.forEach(function (a) { fbq.apply(null, a); });
     queue = [];
