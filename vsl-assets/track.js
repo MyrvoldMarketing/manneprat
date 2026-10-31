@@ -77,11 +77,12 @@
     d.setAttribute('aria-modal', 'true');
     d.setAttribute('aria-label', 'Informasjonskapsler');
     d.style.cssText = 'width:100%;max-width:380px;background:#161a21;color:#e8e6e1;border:1px solid #2a303a;border-radius:14px;padding:20px;font:14px/1.5 Inter,system-ui,sans-serif;box-shadow:0 20px 50px rgba(0,0,0,.5)';
-    d.innerHTML = '<div style="font-weight:700;font-size:16px;margin:0 0 6px">Informasjonskapsler</div>' +
-      '<div style="margin:0 0 16px;color:#b9b6b0">Vi bruker informasjonskapsler fra Meta og Microsoft Clarity til å måle annonsene og bruken av siden. Er det greit?</div>' +
+    d.innerHTML = '<div style="font-weight:700;font-size:16px;margin:0 0 6px">Hjelp Fredrik å nå flere menn som deg</div>' +
+      '<div style="margin:0 0 10px;color:#d6d3cd">Videoen er gratis. Fredrik betaler annonsene av egen lomme. Sier du ja, ser han hvilke annonser som når fram, og kan bruke pengene på å nå flere som kjenner seg igjen.</div>' +
+      '<div style="margin:0 0 16px;color:#8f8c86;font-size:12.5px">Gjelder informasjonskapsler fra Meta og Microsoft Clarity. Vi selger ikke opplysningene dine.</div>' +
       '<div style="display:flex;gap:8px">' +
       '<button type="button" data-v="nei" style="flex:1;background:none;border:1px solid #3a414d;color:#e8e6e1;border-radius:10px;padding:12px;font:inherit;font-weight:600;cursor:pointer">Nei takk</button>' +
-      '<button type="button" data-v="ja" style="flex:1;background:#c9814a;border:0;color:#0e1116;border-radius:10px;padding:12px;font:inherit;font-weight:700;cursor:pointer">Godta</button></div>';
+      '<button type="button" data-v="ja" style="flex:1;background:#c9814a;border:0;color:#0e1116;border-radius:10px;padding:12px;font:inherit;font-weight:700;cursor:pointer">Ja, gjerne</button></div>';
     bg.appendChild(d);
     d.addEventListener('click', function (e) {
       var v = e.target && e.target.getAttribute('data-v');
