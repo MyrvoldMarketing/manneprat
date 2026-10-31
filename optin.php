@@ -12,6 +12,8 @@
 
 declare(strict_types=1);
 
+date_default_timezone_set('Europe/Oslo');
+
 require __DIR__ . '/lib_mailerlite.php';
 
 $config = require __DIR__ . '/credentials.php';
