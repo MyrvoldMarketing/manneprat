@@ -10,8 +10,8 @@
   <link rel="preload" as="image" href="/vsl-assets/vsl-b-poster-1280.jpg" fetchpriority="high" />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
-  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=7" />
-  <script src="/vsl-assets/track.js?v=5" defer></script>
+  <link rel="stylesheet" href="/vsl-assets/funnel.css?v=8" />
+  <script src="/vsl-assets/track.js?v=6" defer></script>
 </head>
 <body class="side-optin">
 
@@ -42,6 +42,7 @@
           <input type="email" id="oEpost" name="epost" autocomplete="email" inputmode="email" placeholder="E-post" aria-label="E-post" required />
           <input type="tel" id="oTlf" name="tlf" autocomplete="tel" inputmode="tel" placeholder="Telefon" aria-label="Telefon" pattern="[0-9 +]{8,}" required />
         </div>
+        <label class="oc__samtykke"><input type="checkbox" id="oSamtykke" /> <span>Meta kan måle at jeg kom fra en annonse (informasjonskapsler)</span></label>
         <p class="form-error" id="optinError" hidden>Noe gikk galt. Prøv igjen, eller skriv til hei@manneprat.no.</p>
         <button type="submit" class="btn btn--block">SE VIDEOEN NÅ</button>
         <p class="oc__smaa">Helt gratis og uforpliktende. Du får også Fredriks nyhetsbrev, og kan melde deg av når du vil.</p>
@@ -73,6 +74,7 @@
       <input type="email" id="pEpost" autocomplete="email" inputmode="email" placeholder="E-post" aria-label="E-post" required />
       <input type="tel" id="pTlf" autocomplete="tel" inputmode="tel" placeholder="Telefon" aria-label="Telefon" pattern="[0-9 +]{8,}" required />
     </div>
+    <label class="oc__samtykke"><input type="checkbox" id="pSamtykke" /> <span>Meta kan måle at jeg kom fra en annonse (informasjonskapsler)</span></label>
     <p class="form-error" id="epError" hidden>Noe gikk galt. Prøv igjen, eller skriv til hei@manneprat.no.</p>
     <button type="submit" class="btn btn--block">SE VIDEOEN NÅ</button>
     <p class="oc__smaa">Helt gratis og uforpliktende. Du får også Fredriks nyhetsbrev, og kan melde deg av når du vil.</p>
@@ -95,6 +97,8 @@
     const btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
     // Pikselen (bare med samtykke) og serveren sender samme eventID, så Meta teller påmeldingen én gang
+    let klar = Promise.resolve();
+    if (document.getElementById('oSamtykke').checked && window.mpSamtykke) klar = mpSamtykke();
     if (window.mpTrack) mpTrack('Lead', { content_name: 'vsl-c-optin', content_category: 'vsl-c-optin' }, false, { eventID: eventId });
     let ok = false;
     try {
@@ -106,6 +110,7 @@
         sessionStorage.setItem('mp_optin', JSON.stringify({ fornavn: data.fornavn, tlf: data.tlf, epost: data.epost }));
         sessionStorage.setItem('mp_video', 'VSL-C');
       } catch (_) {}
+      await klar;
       window.location.href = '/vsl-c/video/';
       return;
     }
@@ -125,6 +130,7 @@
     try { sessionStorage.setItem('mp_exit', '1'); } catch (_) {}
     // Det som allerede er skrevet i skjemaet, følger med
     [['oFornavn', 'pFornavn'], ['oEpost', 'pEpost'], ['oTlf', 'pTlf']].forEach(([a, b]) => { document.getElementById(b).value = document.getElementById(a).value; });
+    document.getElementById('pSamtykke').checked = document.getElementById('oSamtykke').checked;
     ep.hidden = false;
     if (window.mpTrack) mpTrack('Exit_Popup_Vist', {}, true);
   }
@@ -149,6 +155,7 @@
     e.preventDefault();
     if (!epForm.checkValidity()) { epForm.reportValidity(); return; }
     [['pFornavn', 'oFornavn'], ['pEpost', 'oEpost'], ['pTlf', 'oTlf']].forEach(([a, b]) => { document.getElementById(b).value = document.getElementById(a).value; });
+    document.getElementById('oSamtykke').checked = document.getElementById('pSamtykke').checked;
     epForm.querySelector('button[type="submit"]').disabled = true;
     form.requestSubmit();
     // Hovedskjemaet viser feilen sin; speil den i popupen

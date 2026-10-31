@@ -53,8 +53,23 @@
     if (loaded) fbq.apply(null, a); else queue.push(a);
   };
 
+  // Samtykke gitt i påmeldingsskjemaet: lagre det, last pikselen og vent til den er klar (maks 2 sek)
+  window.mpSamtykke = function () {
+    try { localStorage.setItem(KEY, 'ja'); } catch (_) {}
+    var b = document.getElementById('mp-banner'); if (b) b.remove();
+    loadPixel();
+    return new Promise(function (ok) {
+      var t0 = Date.now();
+      (function vent() {
+        if ((window.fbq && window.fbq.callMethod) || Date.now() - t0 > 2000) setTimeout(ok, 400);
+        else setTimeout(vent, 100);
+      })();
+    });
+  };
+
   function banner() {
     var d = document.createElement('div');
+    d.id = 'mp-banner';
     d.setAttribute('role', 'dialog');
     d.style.cssText = 'position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;max-width:560px;margin:0 auto;background:#161a21;color:#e8e6e1;border:1px solid #2a303a;border-radius:10px;padding:10px 12px;font:12.5px/1.4 Inter,system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.45);display:flex;gap:10px;align-items:center';
     d.innerHTML = '<div style="flex:1">Vi bruker informasjonskapsler fra Meta og Microsoft Clarity til å måle annonsene og bruken av siden. Greit?</div>' +
